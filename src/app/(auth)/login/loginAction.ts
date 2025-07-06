@@ -29,5 +29,5 @@ export default async function LoginAction(_prevState: any, formData: FormData) {
     }
   }
 
-  //redirect("/dashboard");
+  redirect("/dashboard");
 }

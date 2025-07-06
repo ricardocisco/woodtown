@@ -4,14 +4,15 @@ import db from "./src/lib/db";
 import { compareSync } from "bcrypt-ts";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  trustHost: true,
   session: {
     strategy: "jwt"
   },
   providers: [
     Credentials({
       credentials: {
-        email: { label: "E-mail", type: "email" },
-        password: { label: "Senha", type: "password" }
+        email: {},
+        password: {}
       },
       authorize: async (credentials) => {
         const email = credentials.email as string;

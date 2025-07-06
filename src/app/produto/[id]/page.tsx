@@ -30,6 +30,7 @@ import {
   Shield,
   RotateCcw
 } from "lucide-react";
+import Navbar from "@/src/components/Navbar";
 
 // Simulando dados do produto (em produção viria de uma API)
 const product = {
@@ -107,61 +108,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   return (
     <div className="min-h-screen bg-zinc-900">
       {/* Header */}
-      <header className="bg-zinc-800 border-b border-zinc-700">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-amber-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">W</span>
-              </div>
-              <span className="text-2xl font-bold text-white">Woodtown</span>
-            </Link>
-
-            <nav className="hidden md:flex space-x-8">
-              <Link
-                href="/"
-                className="text-white hover:text-amber-400 transition-colors"
-              >
-                Início
-              </Link>
-              <Link
-                href="/produtos"
-                className="text-white hover:text-amber-400 transition-colors"
-              >
-                Produtos
-              </Link>
-              <Link
-                href="/sobre"
-                className="text-white hover:text-amber-400 transition-colors"
-              >
-                Sobre
-              </Link>
-              <Link
-                href="/contato"
-                className="text-white hover:text-amber-400 transition-colors"
-              >
-                Contato
-              </Link>
-            </nav>
-
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-white hover:text-amber-400"
-              >
-                <ShoppingCart className="h-5 w-5" />
-              </Button>
-              <Button
-                variant="outline"
-                className="border-amber-600 text-amber-400 hover:bg-amber-600 hover:text-white bg-transparent"
-              >
-                Login
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Navbar />
 
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
@@ -189,7 +136,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
           <div className="space-y-4">
             <div className="relative">
               <Image
-                src={product.images[selectedImage] || "/placeholder.svg"}
+                src={product.images[selectedImage]}
                 alt={product.name}
                 width={500}
                 height={500}
@@ -319,7 +266,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                     size="icon"
                     onClick={() => handleQuantityChange(-1)}
                     disabled={quantity <= 1}
-                    className="border-zinc-600 text-white hover:bg-zinc-700"
+                    className="border-amber-600 text-amber-400 hover:bg-amber-600 hover:text-white bg-transparent"
                   >
                     <Minus className="h-4 w-4" />
                   </Button>
@@ -331,7 +278,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                     size="icon"
                     onClick={() => handleQuantityChange(1)}
                     disabled={quantity >= product.stockQuantity}
-                    className="border-zinc-600 text-white hover:bg-zinc-700"
+                    className="border-amber-600 text-amber-400 hover:bg-amber-600 hover:text-white bg-transparent"
                   >
                     <Plus className="h-4 w-4" />
                   </Button>
@@ -403,19 +350,19 @@ export default function ProductPage({ params }: { params: { id: string } }) {
           <TabsList className="bg-zinc-800 border-zinc-700">
             <TabsTrigger
               value="description"
-              className="data-[state=active]:bg-amber-600"
+              className="data-[state=active]:bg-amber-600 text-white"
             >
               Descrição
             </TabsTrigger>
             <TabsTrigger
               value="specifications"
-              className="data-[state=active]:bg-amber-600"
+              className="data-[state=active]:bg-amber-600 text-white"
             >
               Especificações
             </TabsTrigger>
             <TabsTrigger
               value="reviews"
-              className="data-[state=active]:bg-amber-600"
+              className="data-[state=active]:bg-amber-600 text-white"
             >
               Avaliações
             </TabsTrigger>
