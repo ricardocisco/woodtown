@@ -16,6 +16,9 @@ import {
 } from "@/src/components/ui/select";
 import { Checkbox } from "@/src/components/ui/checkbox";
 import { ShoppingCart, Star, Search, Filter } from "lucide-react";
+import useProduct from "@/src/hooks/useProduct";
+import Navbar from "@/src/components/Navbar";
+import { useCartStore } from "../store/cartStore";
 
 const products = [
   {
@@ -78,11 +81,11 @@ const products = [
 
 const categories = [
   "Todos",
-  "Shapes",
-  "Rolamentos",
-  "Roupas",
-  "Calçados",
-  "Acessórios"
+  "SHAPES",
+  "ROLAMENTOS",
+  "ROUPAS",
+  "CALCADOS",
+  "ACESSORIOS"
 ];
 const priceRanges = [
   { label: "Até R$ 50", min: 0, max: 50 },
@@ -92,6 +95,9 @@ const priceRanges = [
 ];
 
 export default function ProductsPage() {
+  const { products, loading } = useProduct();
+  const { addCart } = useCartStore();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Todos");
   const [selectedPriceRanges, setSelectedPriceRanges] = useState<string[]>([]);
@@ -104,7 +110,7 @@ export default function ProductsPage() {
       .includes(searchTerm.toLowerCase());
     const matchesCategory =
       selectedCategory === "Todos" || product.category === selectedCategory;
-    const matchesStock = !showOnlyInStock || product.inStock;
+    const matchesStock = !showOnlyInStock || product.stock;
 
     const matchesPrice =
       selectedPriceRanges.length === 0 ||
@@ -126,8 +132,6 @@ export default function ProductsPage() {
         return a.price - b.price;
       case "price-high":
         return b.price - a.price;
-      case "rating":
-        return b.rating - a.rating;
       default:
         return a.name.localeCompare(b.name);
     }
@@ -143,60 +147,6 @@ export default function ProductsPage() {
 
   return (
     <div className="min-h-screen bg-zinc-900">
-      {/* Header */}
-      <header className="bg-zinc-800 border-b border-zinc-700">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-amber-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">W</span>
-              </div>
-              <span className="text-2xl font-bold text-white">Woodtown</span>
-            </Link>
-
-            <nav className="hidden md:flex space-x-8">
-              <Link
-                href="/"
-                className="text-white hover:text-amber-400 transition-colors"
-              >
-                Início
-              </Link>
-              <Link href="/produtos" className="text-amber-400">
-                Produtos
-              </Link>
-              <Link
-                href="/sobre"
-                className="text-white hover:text-amber-400 transition-colors"
-              >
-                Sobre
-              </Link>
-              <Link
-                href="/contato"
-                className="text-white hover:text-amber-400 transition-colors"
-              >
-                Contato
-              </Link>
-            </nav>
-
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-white hover:text-amber-400"
-              >
-                <ShoppingCart className="h-5 w-5" />
-              </Button>
-              <Button
-                variant="outline"
-                className="border-amber-600 text-amber-400 hover:bg-amber-600 hover:text-white bg-transparent"
-              >
-                Login
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
-
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
@@ -339,19 +289,15 @@ export default function ProductsPage() {
                     <div className="relative mb-4">
                       <Link href={`/produto/${product.id}`}>
                         <Image
-                          src={product.image || "/placeholder.svg"}
+                          src={product.imageUrl}
                           alt={product.name}
                           width={300}
                           height={300}
+                          unoptimized
                           className="w-full h-48 object-cover rounded-lg cursor-pointer"
                         />
                       </Link>
-                      {product.isNew && (
-                        <Badge className="absolute top-2 left-2 bg-amber-600 text-white">
-                          Novo
-                        </Badge>
-                      )}
-                      {!product.inStock && (
+                      {!product.stock && (
                         <Badge className="absolute top-2 right-2 bg-red-600 text-white">
                           Esgotado
                         </Badge>
@@ -368,28 +314,19 @@ export default function ProductsPage() {
                         </h3>
                       </Link>
 
-                      <div className="flex items-center space-x-1">
-                        <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                        <span className="text-zinc-400 text-sm">
-                          {product.rating}
-                        </span>
-                      </div>
-
                       <div className="flex items-center justify-between">
                         <div>
                           <span className="text-white font-bold text-lg">
                             R$ {product.price.toFixed(2)}
                           </span>
-                          {product.originalPrice && (
-                            <span className="text-zinc-500 text-sm line-through ml-2">
-                              R$ {product.originalPrice.toFixed(2)}
-                            </span>
-                          )}
                         </div>
                         <Button
                           size="sm"
                           className="bg-amber-600 hover:bg-amber-700"
-                          disabled={!product.inStock}
+                          disabled={!product.stock}
+                          onClick={() => {
+                            addCart(product);
+                          }}
                         >
                           <ShoppingCart className="h-4 w-4" />
                         </Button>

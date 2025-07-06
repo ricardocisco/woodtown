@@ -12,8 +12,19 @@ import {
   DialogHeader,
   DialogTitle
 } from "./ui/dialog";
+import { ScrollArea } from "./ui/scroll-area";
+import { useCartStore } from "../app/store/cartStore";
 
-export default function Orders({ userId }: { userId: string }) {
+export default function Cart({ userId }: { userId: string }) {
+  const {
+    items,
+    increaseQuantity,
+    decreaseQuantity,
+    removeItem,
+    total,
+    clearCart
+  } = useCartStore();
+
   const [isLoading, setIsLoading] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
@@ -59,7 +70,7 @@ export default function Orders({ userId }: { userId: string }) {
 
   return (
     <div className="flex flex-col h-[calc(100%-50px)] justify-between">
-      {/* <ScrollArea className="px-3">
+      <ScrollArea className="px-3">
         <div className="py-2 overflow-y-auto">
           {items.length > 0 ? (
             items.map((item) => (
@@ -73,32 +84,39 @@ export default function Orders({ userId }: { userId: string }) {
                     />
                   </picture>
                   <div className="ml-3">
-                    <p>{item.name}</p>
-                    <p>R${item.price.toFixed(2)}</p>
+                    <p className="text-white">{item.name}</p>
+                    <p className="text-white">R${item.price.toFixed(2)}</p>
                   </div>
                 </div>
                 <div className="flex flex-col justify-between items-end">
                   <Button
-                    className="text-red-600"
-                    variant={"outline"}
+                    variant="destructive"
                     size={"sm"}
-                    onClick={() => removeItem(item.id)}
+                    onClick={() => {
+                      if (item.id) removeItem(item.id);
+                    }}
                   >
                     <Trash />
                   </Button>
                   <div className="flex items-center gap-2">
                     <Button
-                      variant={"outline"}
+                      variant="outline"
                       size={"sm"}
-                      onClick={() => decreaseQuantity(item.id)}
+                      className="bg-amber-600 text-white border-none"
+                      onClick={() => {
+                        if (item.id) decreaseQuantity(item.id);
+                      }}
                     >
                       <Minus />
                     </Button>
-                    <p>{item.quantity}</p>
+                    <p className="text-white">{item.quantity}</p>
                     <Button
-                      variant={"outline"}
+                      variant="outline"
                       size={"sm"}
-                      onClick={() => increaseQuantity(item.id)}
+                      className="bg-amber-600 text-white border-none"
+                      onClick={() => {
+                        if (item.id) increaseQuantity(item.id);
+                      }}
                     >
                       <Plus />
                     </Button>
@@ -107,31 +125,42 @@ export default function Orders({ userId }: { userId: string }) {
               </div>
             ))
           ) : (
-            <p>Seu carrinho está vazio. :(</p>
+            <p className="text-white">Seu carrinho está vazio. :(</p>
           )}
         </div>
-      </ScrollArea> */}
+      </ScrollArea>
       <div className="flex flex-col gap-2 py-2">
         <div className="flex justify-between">
-          <p className="text-sm">Pagamento Total</p>
-          <p className="text-sm">R$Total</p>
+          <p className="text-sm text-white">Pagamento Total</p>
+          <p className="text-sm text-white">R$ {total.toFixed(2)}</p>
         </div>
         <div className="flex justify-between">
-          <p className="text-sm">Quantidade Total</p>
-          <p className="text-sm">
-            {/* {items.reduce((acc, item) => acc + item.quantity, 0)} */}
+          <p className="text-sm text-white">Quantidade Total</p>
+          <p className="text-sm text-white">
+            {items.reduce((acc, item) => acc + item.quantity, 0)}
           </p>
         </div>
-        <div className="flex">
-          <Input type="text" placeholder="Cupom de Desconto" />
-          <Button variant={"outline"}>Aplicar</Button>
+        <div className="flex gap-2">
+          <Input
+            type="text"
+            placeholder="Cupom de Desconto"
+            className="focus:border-none border-amber-400"
+          />
+          <Button
+            variant={"outline"}
+            className="bg-amber-600 text-white border-none"
+          >
+            Aplicar
+          </Button>
         </div>
         <Button
           variant={"outline"}
-          className="w-full mt-2 bg-blue-600 text-white"
+          className="w-full mt-2 bg-amber-600 text-white border-none"
           disabled={isLoading}
         >
-          {isLoading ? "Finalizando Pedido..." : `Finalizar Compra R$`}
+          {isLoading
+            ? "Finalizando Pedido..."
+            : `Finalizar Compra R$ ${total.toFixed(2)}`}
         </Button>
       </div>
 

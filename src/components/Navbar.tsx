@@ -1,9 +1,25 @@
+"use server";
+
 import Link from "next/link";
 import React from "react";
 import { Button } from "./ui/button";
 import { ShoppingCart } from "lucide-react";
+import { auth } from "@/auth";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger
+} from "./ui/sheet";
+import Count from "./CountCart";
+import Cart from "./Cart";
 
-export default function Navbar() {
+export default async function Navbar() {
+  const session = await auth();
+  const user = session?.user;
+  const userId = user?.id ?? "";
+
   return (
     <header className="bg-zinc-800 border-b border-zinc-700">
       <div className="container mx-auto px-4 py-4">
@@ -43,13 +59,22 @@ export default function Navbar() {
           </nav>
 
           <div className="flex items-center space-x-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-white hover:text-amber-400"
-            >
-              <ShoppingCart className="h-5 w-5" />
-            </Button>
+            <Sheet>
+              <SheetTrigger>
+                <div className="flex relative">
+                  <ShoppingCart className="w-6 h-6 text-amber-400" />
+                  <Count />
+                </div>
+              </SheetTrigger>
+              <SheetContent className="w-[400px] sm:w-[540px] bg-zinc-800 border-none p-4">
+                <SheetHeader>
+                  <SheetTitle className="text-white">Carrinho</SheetTitle>
+                </SheetHeader>
+                <div className="h-full">
+                  <Cart userId={userId} />
+                </div>
+              </SheetContent>
+            </Sheet>
             <Button
               asChild
               variant="outline"

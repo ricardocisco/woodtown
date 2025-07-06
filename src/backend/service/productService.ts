@@ -5,6 +5,12 @@ export async function getAllProducts() {
   return await db.product.findMany();
 }
 
+export async function getProductById(id: string) {
+  return await db.product.findUnique({
+    where: { id }
+  });
+}
+
 export async function createProduct(data: Product) {
   return await db.product.create({
     data: {

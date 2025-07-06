@@ -87,6 +87,43 @@ export default function useProduct() {
     }
   };
 
+  const fetchProductById = async (id: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`/api/services/product/${id}`, {
+        method: "GET"
+      });
+      if (!response.ok) {
+        let message = "Erro ao buscar o anúncio";
+
+        switch (response.status) {
+          case 400:
+            message = "Solicitação inválida, Verifique os parâmetros";
+          case 404:
+            message = "Recurso não encontrado. Verifique o URL.";
+            break;
+          case 500:
+            message = "Erro interno do servidor. Tente novamente mais tarde.";
+            break;
+          default:
+            message = `Erro inesperado: ${response.status}`;
+        }
+
+        throw { message, status: response.status };
+      }
+
+      const data = await response.json();
+      return data as Product;
+      setProducts(data);
+    } catch (error) {
+      const apiError = error as ApiError;
+      setError(apiError.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -95,6 +132,7 @@ export default function useProduct() {
     products,
     createProduct,
     deleteProduct,
+    fetchProductById,
     error,
     loading
   };

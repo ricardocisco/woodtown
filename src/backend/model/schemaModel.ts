@@ -42,7 +42,7 @@ export const ProductSchema = z.object({
   stock: z.number(),
   description: z.string().optional(),
   imageUrl: z.string(),
-  category: z.array(z.lazy(() => Category)).optional(),
+  category: z.string(),
   createdAt: z.coerce.date().optional(),
   quantity: z.number()
 });
