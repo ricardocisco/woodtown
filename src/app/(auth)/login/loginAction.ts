@@ -12,8 +12,9 @@ export default async function LoginAction(_prevState: any, formData: FormData) {
   };
 
   try {
-    await signIn("credentials", { email, password });
-    return { success: true };
+    const res = await signIn("credentials", { email, password });
+    console.log("dados res", res);
+    return { success: true, res };
   } catch (error) {
     if (error instanceof AuthError) {
       if (error.type === "CredentialsSignin") {

@@ -98,7 +98,7 @@ export async function createOrder(data: Order) {
         items: {
           create:
             data.items?.map((item) => ({
-              productId: item.productId
+              productId: item.id
             })) ?? []
         },
         createdAt: new Date()

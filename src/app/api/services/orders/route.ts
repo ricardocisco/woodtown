@@ -24,10 +24,10 @@ export async function POST(req: Request) {
 
     if (error instanceof Error) {
       const message =
-        error.message === "Cafe não encontrado"
-          ? "O Café solicitado não existe"
+        error.message === "Produto não encontrado"
+          ? "O Produto solicitado não existe"
           : error.message === "Estoque insuficiente"
-          ? "Estoque insuficiente para o café solicitado"
+          ? "Estoque insuficiente para o produto solicitado"
           : "Erro interno ao criar pedido";
 
       return NextResponse.json(
@@ -37,7 +37,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(
-      { error: error, message: "Erro ao criar Café" },
+      { error: error, message: "Erro ao criar Produto" },
       { status: 500 }
     );
   }

@@ -14,6 +14,7 @@ import {
 } from "./ui/dialog";
 import { ScrollArea } from "./ui/scroll-area";
 import { useCartStore } from "../app/store/cartStore";
+import PaymentButton from "./paymentButton";
 
 export default function Cart({ userId }: { userId: string }) {
   const {
@@ -153,15 +154,7 @@ export default function Cart({ userId }: { userId: string }) {
             Aplicar
           </Button>
         </div>
-        <Button
-          variant={"outline"}
-          className="w-full mt-2 bg-amber-600 text-white border-none"
-          disabled={isLoading}
-        >
-          {isLoading
-            ? "Finalizando Pedido..."
-            : `Finalizar Compra R$ ${total.toFixed(2)}`}
-        </Button>
+        <PaymentButton />
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
