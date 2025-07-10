@@ -1,19 +1,66 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import { useCartStore } from "../app/store/cartStore";
 import { Button } from "./ui/button";
+import useOrder from "../hooks/useOrder";
+import { toast } from "sonner";
 
 export default function PaymentButton() {
-  const { items } = useCartStore();
+  const { items, total } = useCartStore();
+  const { createOrder } = useOrder();
+  const { data: session, status } = useSession();
+
+  console.log(
+    "Items cart: ",
+    items.map((item) => item.id)
+  );
 
   const handleCheckout = async () => {
+    if (status !== "authenticated" || !session?.user?.email) {
+      toast.error("Você precisa estar logado para prosseguir com a compra!", {
+        position: "top-center"
+      });
+      return;
+    }
+
     try {
+      // const orderRes = await fetch("/api/services/orders", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json"
+      //   },
+      //   body: JSON.stringify({
+      //     userId: session.user.id,
+      //     email: session.user.email,
+      //     total,
+      //     items
+      //   })
+      // });
+      const orderRes = await createOrder({
+        userId: session.user.id,
+        items: items.map((item) => ({
+          productId: item.id,
+          quantity: item.quantity
+        })),
+        total
+      });
+
+      console.log(orderRes);
+
+      const order = orderRes;
+
+      if (!order?.id) {
+        console.log("error ao criar pedido");
+        return;
+      }
+
       const response = await fetch("/api/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ items })
+        body: JSON.stringify({ items, orderId: order.id })
       });
 
       const data = await response.json();

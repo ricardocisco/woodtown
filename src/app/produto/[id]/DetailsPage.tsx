@@ -28,11 +28,14 @@ import {
   Plus,
   Truck,
   Shield,
-  RotateCcw
+  RotateCcw,
+  X,
+  CheckCircle
 } from "lucide-react";
 import { Product } from "@/src/backend/model/schemaModel";
 import useProduct from "@/src/hooks/useProduct";
 import { useCartStore } from "../../store/cartStore";
+import { toast } from "sonner";
 
 const relatedProducts = [
   {
@@ -86,11 +89,36 @@ export default function DetailsPage({ id }: { id: string }) {
 
   const handleCart = () => {
     addToCart(product, quantity);
+    toast(
+      <div className="flex items-start gap-3">
+        <CheckCircle className="h-5 w-5 text-green-500 mt-1" />
+
+        <div className="flex-1">
+          <p className="font-medium text-white">Item adicionado ao carrinho!</p>
+          <p className="text-sm text-zinc-400 mt-1">
+            O produto foi incluído com sucesso.
+          </p>
+        </div>
+      </div>,
+      {
+        style: {
+          backgroundColor: "#18181b",
+          color: "#fff",
+          borderColor: "#27272a",
+          margin: 2
+        },
+        action: {
+          label: <X className="h-4 w-4 text-white" />,
+          onClick: () => {}
+        },
+        position: "top-center"
+      }
+    );
     setQuantity(0);
   };
 
   return (
-    <div className="min-h-screen bg-zinc-900">
+    <div className="min-h-screen bg-zinc-900 ">
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <div className="flex items-center space-x-2 text-zinc-400 mb-8">
@@ -235,7 +263,10 @@ export default function DetailsPage({ id }: { id: string }) {
                 <Button
                   size="lg"
                   className="bg-amber-600 hover:bg-amber-700 text-white flex-1"
-                  onClick={handleCart}
+                  disabled={quantity <= 0}
+                  onClick={() => {
+                    handleCart();
+                  }}
                 >
                   <ShoppingCart className="h-5 w-5 mr-2" />
                   Adicionar ao Carrinho

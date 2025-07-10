@@ -15,10 +15,18 @@ import {
   SelectValue
 } from "@/src/components/ui/select";
 import { Checkbox } from "@/src/components/ui/checkbox";
-import { ShoppingCart, Star, Search, Filter } from "lucide-react";
+import {
+  ShoppingCart,
+  Star,
+  Search,
+  Filter,
+  CheckCircle,
+  X
+} from "lucide-react";
 import useProduct from "@/src/hooks/useProduct";
 import Navbar from "@/src/components/Navbar";
 import { useCartStore } from "../store/cartStore";
+import { toast } from "sonner";
 
 const products = [
   {
@@ -325,7 +333,33 @@ export default function ProductsPage() {
                           className="bg-amber-600 hover:bg-amber-700"
                           disabled={!product.stock}
                           onClick={() => {
-                            addCart(product);
+                            addCart(product),
+                              toast(
+                                <div className="flex items-start gap-3">
+                                  <CheckCircle className="h-5 w-5 text-green-500 mt-1" />
+                                  <div className="flex-1">
+                                    <p className="font-medium text-white">
+                                      Item adicionado ao carrinho!
+                                    </p>
+                                    <p className="text-sm text-zinc-400 mt-1">
+                                      O produto foi incluído com sucesso.
+                                    </p>
+                                  </div>
+                                </div>,
+                                {
+                                  style: {
+                                    backgroundColor: "#18181b",
+                                    color: "#fff",
+                                    borderColor: "#27272a",
+                                    margin: 2
+                                  },
+                                  action: {
+                                    label: <X className="h-4 w-4 text-white" />,
+                                    onClick: () => {}
+                                  },
+                                  position: "top-center"
+                                }
+                              );
                           }}
                         >
                           <ShoppingCart className="h-4 w-4" />

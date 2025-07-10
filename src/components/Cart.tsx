@@ -26,48 +26,10 @@ export default function Cart({ userId }: { userId: string }) {
     clearCart
   } = useCartStore();
 
-  const [isLoading, setIsLoading] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const [dialogTitle, setDialogTitle] = useState("");
   const [isError, setIsError] = useState(false);
-
-  // const handleCreateOrder = async () => {
-  //   setIsLoading(true);
-  //   try {
-  //     const order = await createOrder({
-  //       userId: userId,
-  //       items: items.map((item) => ({
-  //         coffeeId: item.id,
-  //         quantity: item.quantity
-  //       })),
-  //       total
-  //     });
-
-  //     console.log(order);
-
-  //     setDialogTitle("Compra Realizada com Sucesso!");
-  //     setDialogMessage("Seu pedido foi realizado com sucesso!");
-  //     setIsError(false);
-  //     setIsDialogOpen(true);
-
-  //     setTimeout(() => {
-  //       clearCart();
-  //       setTimeout(() => {
-  //         setIsDialogOpen(false);
-  //       }, 3000);
-  //     }, 2000);
-  //   } catch (err) {
-  //     console.log(err);
-
-  //     setDialogTitle("Erro ao Realizar Pedido");
-  //     setDialogMessage(error || "Ocorreu um erro inesperado. Tente novamente.");
-  //     setIsError(true);
-  //     setIsDialogOpen(true);
-
-  //     setIsLoading(false);
-  //   }
-  // };
 
   return (
     <div className="flex flex-col h-[calc(100%-50px)] justify-between">

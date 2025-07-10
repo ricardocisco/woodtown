@@ -59,6 +59,11 @@ export async function createOrder(data: Order) {
       throw new Error("Order items are required");
     }
     for (const item of data.items) {
+      console.log("Produto sendo buscado:", item.productId);
+      if (!item.productId) {
+        throw new Error("ID do produto ausente em um dos itens do pedido");
+      }
+
       const product = await client.product.findUnique({
         where: {
           id: item.productId
@@ -97,8 +102,8 @@ export async function createOrder(data: Order) {
         paymentStatus: "PENDING",
         items: {
           create:
-            data.items?.map((item) => ({
-              productId: item.id
+            data.items.map((item) => ({
+              productId: item.productId
             })) ?? []
         },
         createdAt: new Date()

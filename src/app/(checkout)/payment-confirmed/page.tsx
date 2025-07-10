@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/src/components/ui/button";
 import {
   Card,
@@ -8,9 +10,43 @@ import {
 } from "@/src/components/ui/card";
 import { ShoppingBag } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import { useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
-export default async function CheckoutReturnPage() {
+export default function CheckoutReturnPage() {
+  const [status, setStatus] = useState<"loading" | "paid" | "unpaid">(
+    "loading"
+  );
+  const params = useSearchParams();
+  const sessionId = params.get("session_id");
+
+  useEffect(() => {
+    const checkStatus = async () => {
+      try {
+        const res = await fetch(`/api/checkout/?session_id=${sessionId}`);
+
+        if (!res.ok) {
+          throw new Error("Resposta inválida do servidor");
+        }
+
+        const data = await res.json();
+
+        if (data.status === "paid") {
+          setStatus("paid");
+        } else {
+          setStatus("unpaid");
+        }
+      } catch (error) {
+        console.error("erro ao verificar pagamento", error);
+        setStatus("unpaid");
+      }
+    };
+
+    checkStatus();
+  }, [sessionId]);
+
+  if (status === "loading") return <p>Verificando pagamento...</p>;
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-zinc-900">
       <Card className="max-w-lg bg-zinc-800 border-none">
@@ -28,6 +64,13 @@ export default async function CheckoutReturnPage() {
             <p className="text-white">
               Você pode visualizar o status da sua compra em meus pedidos
             </p>
+            <div>
+              {status === "paid" ? (
+                <h1>✅ Pagamento Confirmado!</h1>
+              ) : (
+                <h1>❌ Pagamento não realizado</h1>
+              )}
+            </div>
             <Button asChild className="bg-amber-600">
               <Link href="/">Voltar para a home</Link>
             </Button>

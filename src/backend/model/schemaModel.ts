@@ -66,7 +66,8 @@ export const OrderSchema: z.ZodType<any> = z.object({
   createdAt: z.coerce.date().optional(),
   paymentStatus: PaymentStatusEnum.optional(),
   orderStatus: OrderStatusEnum.optional(),
-  user: z.lazy(() => UserSchema).optional() // se quiser incluir o usuário
+  user: z.lazy(() => UserSchema).optional(), // se quiser incluir o usuário
+  stripeSessionId: z.string()
 });
 
 export type User = z.infer<typeof UserSchema>;
