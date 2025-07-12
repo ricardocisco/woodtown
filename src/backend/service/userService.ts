@@ -21,6 +21,28 @@ export async function deleteUser(id: string) {
   }
 }
 
+export async function getOrderUserId(userId: string) {
+  if (!userId) {
+    throw new Error("Id not found");
+  }
+
+  return await db.user.findUnique({
+    where: { id: userId },
+    include: {
+      Order: {
+        orderBy: { createdAt: "desc" },
+        include: {
+          items: {
+            include: {
+              product: true
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
 export async function updateUser(id: string, data: Prisma.UserUpdateInput) {
   try {
     const result = await db.user.update({ where: { id }, data });

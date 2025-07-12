@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { User } from "../backend/model/schemaModel";
+import { Order, User } from "../backend/model/schemaModel";
 
 interface ApiError {
   message: string;
@@ -10,7 +10,7 @@ interface ApiError {
 
 export default function useUsers() {
   const [users, setUsers] = useState<User[]>([]);
-  const [userDetails, setUserDetails] = useState<User | null>(null);
+  const [userOrders, setUserOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -66,7 +66,7 @@ export default function useUsers() {
     }
   };
 
-  const fetchUserById = async (id: string) => {
+  const fetchUserOrder = async (id: string) => {
     setLoading(true);
     setError(null);
     try {
@@ -74,7 +74,7 @@ export default function useUsers() {
         method: "GET"
       });
       const data = await response.json();
-      setUserDetails(data);
+      setUserOrders(data.Order ?? []);
     } catch (error) {
       const apiError = error as ApiError;
       setError(apiError.message);
@@ -115,7 +115,7 @@ export default function useUsers() {
     updateUser,
     loading,
     error,
-    fetchUserById,
-    userDetails
+    fetchUserOrder,
+    userOrders
   };
 }

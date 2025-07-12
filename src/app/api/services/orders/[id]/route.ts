@@ -22,15 +22,15 @@ export async function GET(
       const message =
         error.message === "ID nao informado"
           ? "ID nao informado"
-          : "Erro ao buscar Café";
+          : "Erro ao buscar Produto";
 
       return NextResponse.json(
         { error: message },
-        { status: error.message === "Erro ao buscar Café" ? 500 : 400 }
+        { status: error.message === "Erro ao buscar Produto" ? 500 : 400 }
       );
     }
     return NextResponse.json(
-      { error: error, message: "Erro ao buscar Café" },
+      { error: error, message: "Erro ao buscar Produto" },
       { status: 500 }
     );
   }
@@ -53,11 +53,11 @@ export async function DELETE(
       const message =
         error.message === "ID nao informado"
           ? "ID nao informado"
-          : "Erro ao buscar Café";
+          : "Erro ao buscar Produto";
 
       return NextResponse.json(
         { error: message },
-        { status: error.message === "Erro ao buscar Café" ? 500 : 400 }
+        { status: error.message === "Erro ao buscar Produto" ? 500 : 400 }
       );
     }
     return NextResponse.json(

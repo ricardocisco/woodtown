@@ -3,7 +3,7 @@
 import { User } from "@/src/backend/model/schemaModel";
 import { updateStatusOrder } from "@/src/backend/service/orderService";
 import { deleteUser, getUserById } from "@/src/backend/service/userService";
-import { Prisma } from "@prisma/client";
+import { getOrderUserId } from "@/src/backend/service/userService";
 import { NextResponse } from "next/server";
 
 async function updateFun(id: string, data: Partial<User>) {
@@ -67,20 +67,52 @@ export async function PUT(
   }
 }
 
+// export async function GET(
+//   req: Request,
+//   { params }: { params: Promise<{ id: string }> }
+// ) {
+//   const id = (await params).id;
+//   try {
+//     if (!id) {
+//       return NextResponse.json({ error: "ID não informado" }, { status: 400 });
+//     }
+
+//     const user = await getUserById(id);
+//     return NextResponse.json(user);
+//   } catch (error) {
+//     console.error(error);
+//     return NextResponse.json({ error: error }, { status: 500 });
+//   }
+// }
+
 export async function GET(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const id = (await params).id;
+
   try {
     if (!id) {
-      return NextResponse.json({ error: "ID não informado" }, { status: 400 });
+      return NextResponse.json({ error: "id não informado" }, { status: 400 });
     }
 
-    const user = await getUserById(id);
-    return NextResponse.json(user);
+    const details = await getOrderUserId(id);
+    return NextResponse.json(details);
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: error }, { status: 500 });
+    if (error instanceof Error) {
+      const message =
+        error.message === "ID nao informado"
+          ? "ID nao informado"
+          : "Erro ao buscar Produto";
+
+      return NextResponse.json(
+        { error: message },
+        { status: error.message === "Erro ao buscar Produto" ? 500 : 400 }
+      );
+    }
+    return NextResponse.json(
+      { error: error, message: "Erro ao buscar Produto" },
+      { status: 500 }
+    );
   }
 }
