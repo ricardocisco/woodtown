@@ -60,12 +60,12 @@ const categories = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-zinc-900">
+    <div className="min-h-screen font-sans">
       {/* Header */}
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative h-[600px] bg-gradient-to-r from-zinc-900 to-zinc-800">
+      <section className="relative h-[600px]">
         <div className="absolute inset-0 bg-black/40"></div>
         <Image
           src="/placeholder.svg?height=600&width=1200"
@@ -74,27 +74,23 @@ export default function Home() {
           className="object-cover"
         />
         <div className="relative container mx-auto px-4 h-full flex items-center">
-          <div className="max-w-2xl text-white">
+          <div className="max-w-2xl">
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
               Sua paixão pelo <span className="text-amber-400">skate</span>{" "}
               começa aqui
             </h1>
-            <p className="text-xl mb-8 text-zinc-300">
+            <p className="text-xl mb-8">
               Os melhores produtos para skatistas de todos os níveis. Shapes,
               rolamentos, roupas e muito mais.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 size="lg"
-                className="bg-amber-600 hover:bg-amber-700 text-white px-8"
+                className="bg-amber-600 hover:bg-amber-700 px-8"
               >
                 Ver Produtos
               </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white text-white hover:bg-white hover:text-zinc-900 bg-transparent"
-              >
+              <Button size="lg" variant={"secondary"} className="">
                 Saiba Mais
               </Button>
             </div>
@@ -103,7 +99,7 @@ export default function Home() {
       </section>
 
       {/* Categories */}
-      <section className="py-16 bg-zinc-800">
+      <section className="py-16">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-white text-center mb-12">
             Categorias
@@ -138,12 +134,10 @@ export default function Home() {
       </section>
 
       {/* Featured Products */}
-      <section className="py-16 bg-zinc-900">
+      <section className="py-16 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-12">
-            <h2 className="text-3xl font-bold text-white">
-              Produtos em Destaque
-            </h2>
+            <h2 className="text-3xl font-bold">Produtos em Destaque</h2>
             <Link href="/produtos">
               <Button
                 variant="outline"
@@ -214,46 +208,46 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section className="py-16 bg-zinc-800">
+      <section className="py-16 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-amber-600 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Truck className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-white font-semibold mb-2">Frete Grátis</h3>
-              <p className="text-zinc-400">Em compras acima de R$ 199</p>
+              <h3 className="font-semibold mb-2">Frete Grátis</h3>
+              <p className="">Em compras acima de R$ 199</p>
             </div>
 
             <div className="text-center">
               <div className="w-16 h-16 bg-amber-600 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Shield className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-white font-semibold mb-2">Compra Segura</h3>
-              <p className="text-zinc-400">Seus dados protegidos</p>
+              <h3 className="font-semibold mb-2">Compra Segura</h3>
+              <p className="">Seus dados protegidos</p>
             </div>
 
             <div className="text-center">
               <div className="w-16 h-16 bg-amber-600 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Headphones className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-white font-semibold mb-2">Suporte 24/7</h3>
-              <p className="text-zinc-400">Atendimento sempre disponível</p>
+              <h3 className=" font-semibold mb-2">Suporte 24/7</h3>
+              <p className="">Atendimento sempre disponível</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-zinc-900 border-t border-zinc-700 py-12">
+      <footer className="border-t border-zinc-700 py-12">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <div className="w-8 h-8 bg-amber-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold">W</span>
+                  <span className=" font-bold">W</span>
                 </div>
-                <span className="text-xl font-bold text-white">Woodtown</span>
+                <span className="text-xl font-bold ">Woodtown</span>
               </div>
               <p className="text-zinc-400">
                 Sua loja especializada em produtos de skate. Qualidade e paixão
@@ -262,7 +256,7 @@ export default function Home() {
             </div>
 
             <div>
-              <h4 className="text-white font-semibold mb-4">Produtos</h4>
+              <h4 className=" font-semibold mb-4">Produtos</h4>
               <ul className="space-y-2 text-zinc-400">
                 <li>
                   <Link
@@ -300,7 +294,7 @@ export default function Home() {
             </div>
 
             <div>
-              <h4 className="text-white font-semibold mb-4">Atendimento</h4>
+              <h4 className=" font-semibold mb-4">Atendimento</h4>
               <ul className="space-y-2 text-zinc-400">
                 <li>
                   <Link href="/contato" className="hover:text-amber-400">
@@ -326,7 +320,7 @@ export default function Home() {
             </div>
 
             <div>
-              <h4 className="text-white font-semibold mb-4">Contato</h4>
+              <h4 className=" font-semibold mb-4">Contato</h4>
               <div className="space-y-2 text-zinc-400">
                 <p>📧 contato@woodtown.com.br</p>
                 <p>📱 (11) 99999-9999</p>

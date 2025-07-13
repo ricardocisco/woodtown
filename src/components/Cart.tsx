@@ -47,8 +47,8 @@ export default function Cart({ userId }: { userId: string }) {
                     />
                   </picture>
                   <div className="ml-3">
-                    <p className="text-white">{item.name}</p>
-                    <p className="text-white">R${item.price.toFixed(2)}</p>
+                    <p className="">{item.name}</p>
+                    <p className="">R${item.price.toFixed(2)}</p>
                   </div>
                 </div>
                 <div className="flex flex-col justify-between items-end">
@@ -72,11 +72,11 @@ export default function Cart({ userId }: { userId: string }) {
                     >
                       <Minus />
                     </Button>
-                    <p className="text-white">{item.quantity}</p>
+                    <p className="">{item.quantity}</p>
                     <Button
                       variant="outline"
                       size={"sm"}
-                      className="bg-amber-600 text-white border-none"
+                      className="bg-amber-600 border-none"
                       onClick={() => {
                         if (item.id) increaseQuantity(item.id);
                       }}
@@ -88,18 +88,18 @@ export default function Cart({ userId }: { userId: string }) {
               </div>
             ))
           ) : (
-            <p className="text-white">Seu carrinho está vazio. :(</p>
+            <p className="">Seu carrinho está vazio. :(</p>
           )}
         </div>
       </ScrollArea>
       <div className="flex flex-col gap-2 py-2">
         <div className="flex justify-between">
-          <p className="text-sm text-white">Pagamento Total</p>
-          <p className="text-sm text-white">R$ {total.toFixed(2)}</p>
+          <p className="text-sm">Pagamento Total</p>
+          <p className="text-sm">R$ {total.toFixed(2)}</p>
         </div>
         <div className="flex justify-between">
-          <p className="text-sm text-white">Quantidade Total</p>
-          <p className="text-sm text-white">
+          <p className="text-sm">Quantidade Total</p>
+          <p className="text-sm">
             {items.reduce((acc, item) => acc + item.quantity, 0)}
           </p>
         </div>
@@ -109,12 +109,7 @@ export default function Cart({ userId }: { userId: string }) {
             placeholder="Cupom de Desconto"
             className="focus:border-none border-amber-400"
           />
-          <Button
-            variant={"outline"}
-            className="bg-amber-600 text-white border-none"
-          >
-            Aplicar
-          </Button>
+          <Button variant={"outline"}>Aplicar</Button>
         </div>
         <PaymentButton />
       </div>

@@ -52,10 +52,10 @@ export const OrderItemSchema = z.object({
   productId: z.string(),
   orderId: z.string(),
   createdAt: z.coerce.date().optional(),
-  quantity: z.number()
+  quantity: z.number(),
   // Relacionamentos podem ser incluídos se necessário:
-  // product: ProductSchema.optional(),
-  // order: OrderSchema.optional(),
+  product: ProductSchema.optional()
+  //order: OrderSchema.optional(),
 });
 
 export const OrderSchema: z.ZodType<any> = z.object({

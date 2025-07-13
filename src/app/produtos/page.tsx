@@ -154,52 +154,52 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-900">
+    <div className="min-h-screen font-sans">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
           <div className="lg:w-1/4">
-            <Card className="bg-zinc-800 border-zinc-700">
+            <Card className="bg-secondary">
               <CardContent className="p-6">
                 <div className="flex items-center space-x-2 mb-6">
                   <Filter className="h-5 w-5 text-amber-400" />
-                  <h2 className="text-white font-semibold">Filtros</h2>
+                  <h2 className=" font-semibold">Filtros</h2>
                 </div>
 
                 {/* Search */}
                 <div className="mb-6">
-                  <label className="text-white text-sm font-medium mb-2 block">
+                  <label className=" text-sm font-medium mb-2 block">
                     Buscar
                   </label>
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-zinc-400" />
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4" />
                     <Input
                       placeholder="Nome do produto..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-zinc-700 border-zinc-600 text-white"
+                      className="pl-10"
                     />
                   </div>
                 </div>
 
                 {/* Category Filter */}
                 <div className="mb-6">
-                  <label className="text-white text-sm font-medium mb-2 block">
+                  <label className=" text-sm font-medium mb-2 block">
                     Categoria
                   </label>
                   <Select
                     value={selectedCategory}
                     onValueChange={setSelectedCategory}
                   >
-                    <SelectTrigger className="bg-zinc-700 border-zinc-600 text-white">
+                    <SelectTrigger className="">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-zinc-700 border-zinc-600">
+                    <SelectContent className="">
                       {categories.map((category) => (
                         <SelectItem
                           key={category}
                           value={category}
-                          className="text-white"
+                          className=""
                         >
                           {category}
                         </SelectItem>
@@ -210,7 +210,7 @@ export default function ProductsPage() {
 
                 {/* Price Filter */}
                 <div className="mb-6">
-                  <label className="text-white text-sm font-medium mb-2 block">
+                  <label className=" text-sm font-medium mb-2 block">
                     Preço
                   </label>
                   <div className="space-y-2">
@@ -229,10 +229,7 @@ export default function ProductsPage() {
                             )
                           }
                         />
-                        <label
-                          htmlFor={range.label}
-                          className="text-zinc-300 text-sm"
-                        >
+                        <label htmlFor={range.label} className="text-sm">
                           {range.label}
                         </label>
                       </div>
@@ -250,7 +247,7 @@ export default function ProductsPage() {
                         setShowOnlyInStock(checked === true)
                       }
                     />
-                    <label htmlFor="inStock" className="text-zinc-300 text-sm">
+                    <label htmlFor="inStock" className="text-sm">
                       Apenas em estoque
                     </label>
                   </div>
@@ -262,25 +259,25 @@ export default function ProductsPage() {
           {/* Products Grid */}
           <div className="lg:w-3/4">
             <div className="flex justify-between items-center mb-6">
-              <h1 className="text-2xl font-bold text-white">
+              <h1 className="text-2xl font-bold ">
                 Produtos ({sortedProducts.length})
               </h1>
 
               <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-48 bg-zinc-800 border-zinc-600 text-white">
+                <SelectTrigger className="w-48">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-zinc-700 border-zinc-600">
-                  <SelectItem value="name" className="text-white">
+                <SelectContent className="">
+                  <SelectItem value="name" className="">
                     Nome A-Z
                   </SelectItem>
-                  <SelectItem value="price-low" className="text-white">
+                  <SelectItem value="price-low" className="">
                     Menor Preço
                   </SelectItem>
-                  <SelectItem value="price-high" className="text-white">
+                  <SelectItem value="price-high" className="">
                     Maior Preço
                   </SelectItem>
-                  <SelectItem value="rating" className="text-white">
+                  <SelectItem value="rating" className="">
                     Melhor Avaliado
                   </SelectItem>
                 </SelectContent>
@@ -291,7 +288,7 @@ export default function ProductsPage() {
               {sortedProducts.map((product) => (
                 <Card
                   key={product.id}
-                  className="bg-zinc-800 border-zinc-700 hover:border-amber-600 transition-colors"
+                  className="bg-secondary hover:border-amber-600 transition-colors"
                 >
                   <CardContent className="p-4">
                     <div className="relative mb-4">
@@ -306,25 +303,23 @@ export default function ProductsPage() {
                         />
                       </Link>
                       {!product.stock && (
-                        <Badge className="absolute top-2 right-2 bg-red-600 text-white">
+                        <Badge className="absolute top-2 right-2 bg-red-600 ">
                           Esgotado
                         </Badge>
                       )}
                     </div>
 
                     <div className="space-y-2">
-                      <p className="text-zinc-400 text-sm">
-                        {product.category}
-                      </p>
+                      <p className="text-sm">{product.category}</p>
                       <Link href={`/produto/${product.id}`}>
-                        <h3 className="text-white font-semibold hover:text-amber-400 cursor-pointer">
+                        <h3 className=" font-semibold hover:text-amber-400 cursor-pointer">
                           {product.name}
                         </h3>
                       </Link>
 
                       <div className="flex items-center justify-between">
                         <div>
-                          <span className="text-white font-bold text-lg">
+                          <span className=" font-bold text-lg">
                             R$ {product.price.toFixed(2)}
                           </span>
                         </div>
@@ -338,23 +333,20 @@ export default function ProductsPage() {
                                 <div className="flex items-start gap-3">
                                   <CheckCircle className="h-5 w-5 text-green-500 mt-1" />
                                   <div className="flex-1">
-                                    <p className="font-medium text-white">
+                                    <p className="font-medium ">
                                       Item adicionado ao carrinho!
                                     </p>
-                                    <p className="text-sm text-zinc-400 mt-1">
+                                    <p className="text-sm mt-1">
                                       O produto foi incluído com sucesso.
                                     </p>
                                   </div>
                                 </div>,
                                 {
                                   style: {
-                                    backgroundColor: "#18181b",
-                                    color: "#fff",
-                                    borderColor: "#27272a",
                                     margin: 2
                                   },
                                   action: {
-                                    label: <X className="h-4 w-4 text-white" />,
+                                    label: <X className="h-4 w-4 " />,
                                     onClick: () => {}
                                   },
                                   position: "top-center"

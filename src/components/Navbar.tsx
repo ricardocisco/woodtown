@@ -24,6 +24,7 @@ import {
   DropdownMenuTrigger
 } from "@/src/components/ui/dropdown-menu";
 import logout from "../app/(auth)/logout/logout";
+import { ModeToggle } from "./ui/toggle-theme";
 
 export default async function Navbar() {
   const session = await auth();
@@ -33,44 +34,42 @@ export default async function Navbar() {
   console.log("usuario logado", user);
 
   return (
-    <header className="bg-zinc-800 border-b border-zinc-700">
+    <header className="border-b font-sans">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-amber-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">W</span>
+              <span className=" font-bold text-xl">W</span>
             </div>
-            <span className="text-2xl font-bold text-white">Woodtown</span>
+            <span className="text-2xl font-bold ">Woodtown</span>
           </Link>
 
           <nav className="hidden md:flex space-x-8">
-            <Link
-              href="/"
-              className="text-white hover:text-amber-400 transition-colors"
-            >
+            <Link href="/" className=" hover:text-amber-400 transition-colors">
               Início
             </Link>
             <Link
               href="/produtos"
-              className="text-white hover:text-amber-400 transition-colors"
+              className=" hover:text-amber-400 transition-colors"
             >
               Produtos
             </Link>
             <Link
               href="/sobre"
-              className="text-white hover:text-amber-400 transition-colors"
+              className=" hover:text-amber-400 transition-colors"
             >
               Sobre
             </Link>
             <Link
               href="/contato"
-              className="text-white hover:text-amber-400 transition-colors"
+              className=" hover:text-amber-400 transition-colors"
             >
               Contato
             </Link>
           </nav>
 
           <div className="flex items-center space-x-4">
+            <ModeToggle />
             <Sheet>
               <SheetTrigger>
                 <div className="flex relative">
@@ -78,9 +77,9 @@ export default async function Navbar() {
                   <Count />
                 </div>
               </SheetTrigger>
-              <SheetContent className="w-[400px] sm:w-[540px] bg-zinc-800 border-none p-4">
+              <SheetContent className="w-[400px] sm:w-[540px]  border-none p-4">
                 <SheetHeader>
-                  <SheetTitle className="text-white">Carrinho</SheetTitle>
+                  <SheetTitle className="">Carrinho</SheetTitle>
                 </SheetHeader>
                 <div className="h-full">
                   <Cart userId={userId} />
@@ -100,16 +99,13 @@ export default async function Navbar() {
             ) : (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="border-white text-white hover:bg-white hover:text-zinc-900 bg-transparent"
-                  >
+                  <Button variant="outline" className="">
                     <CircleUser />
                     {user.name}
                     <ChevronDown />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 bg-zinc-800 border-none text-white">
+                <DropdownMenuContent className="w-56 border-none">
                   <DropdownMenuLabel>Minha conta</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
@@ -122,7 +118,7 @@ export default async function Navbar() {
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <form action={logout}>
-                    <Button className="w-full" variant={"ghost"}>
+                    <Button className="w-full cursor-pointer" variant={"ghost"}>
                       Sair
                     </Button>
                   </form>

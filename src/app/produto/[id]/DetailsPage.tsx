@@ -94,21 +94,13 @@ export default function DetailsPage({ id }: { id: string }) {
         <CheckCircle className="h-5 w-5 text-green-500 mt-1" />
 
         <div className="flex-1">
-          <p className="font-medium text-white">Item adicionado ao carrinho!</p>
-          <p className="text-sm text-zinc-400 mt-1">
-            O produto foi incluído com sucesso.
-          </p>
+          <p className="font-medium">Item adicionado ao carrinho!</p>
+          <p className="text-sm mt-1">O produto foi incluído com sucesso.</p>
         </div>
       </div>,
       {
-        style: {
-          backgroundColor: "#18181b",
-          color: "#fff",
-          borderColor: "#27272a",
-          margin: 2
-        },
         action: {
-          label: <X className="h-4 w-4 text-white" />,
+          label: <X className="h-4 w-4" />,
           onClick: () => {}
         },
         position: "top-center"
@@ -118,10 +110,10 @@ export default function DetailsPage({ id }: { id: string }) {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-900 ">
+    <div className="min-h-screen font-sans">
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
-        <div className="flex items-center space-x-2 text-zinc-400 mb-8">
+        <div className="flex items-center space-x-2 mb-8">
           <Link href="/" className="hover:text-amber-400">
             Início
           </Link>
@@ -137,7 +129,7 @@ export default function DetailsPage({ id }: { id: string }) {
             {product.category}
           </Link>
           <span>/</span>
-          <span className="text-white">{product.name}</span>
+          <span>{product.name}</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
@@ -183,19 +175,15 @@ export default function DetailsPage({ id }: { id: string }) {
               <p className="text-amber-400 text-sm font-medium mb-2">
                 {product.category}
               </p>
-              <h1 className="text-3xl font-bold text-white mb-4">
-                {product.name}
-              </h1>
+              <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
               <div className="flex items-center space-x-4 mb-6">
-                <span className="text-3xl font-bold text-white">
+                <span className="text-3xl font-bold">
                   R$ {product.price.toFixed(2)}
                 </span>
               </div>
             </div>
 
-            <p className="text-zinc-300 leading-relaxed">
-              {product.description}
-            </p>
+            <p className="leading-relaxed">{product.description}</p>
 
             {/* Size Selection (if applicable) */}
             {/* {product.category === "SHAPES" && (
@@ -228,20 +216,18 @@ export default function DetailsPage({ id }: { id: string }) {
             {/* Quantity and Add to Cart */}
             <div className="space-y-4">
               <div>
-                <label className="text-white font-medium mb-2 block">
-                  Quantidade
-                </label>
+                <label className="font-medium mb-2 block">Quantidade</label>
                 <div className="flex items-center space-x-3">
                   <Button
                     variant="outline"
                     size="icon"
                     onClick={() => handleQuantityChange(-1)}
                     disabled={quantity <= 1}
-                    className="border-amber-600 text-amber-400 hover:bg-amber-600 hover:text-white bg-transparent"
+                    className="border-amber-600 text-amber-400 hover:bg-amber-600"
                   >
                     <Minus className="h-4 w-4" />
                   </Button>
-                  <span className="text-white font-medium w-8 text-center">
+                  <span className="font-medium w-8 text-center">
                     {quantity}
                   </span>
                   <Button
@@ -249,11 +235,11 @@ export default function DetailsPage({ id }: { id: string }) {
                     size="icon"
                     onClick={() => handleQuantityChange(1)}
                     disabled={quantity >= product.stock}
-                    className="border-amber-600 text-amber-400 hover:bg-amber-600 hover:text-white bg-transparent"
+                    className="border-amber-600 text-amber-400 hover:bg-amber-600"
                   >
                     <Plus className="h-4 w-4" />
                   </Button>
-                  <span className="text-zinc-400 text-sm ml-4">
+                  <span className="text-sm ml-4">
                     {product.stock} em estoque
                   </span>
                 </div>
@@ -271,47 +257,39 @@ export default function DetailsPage({ id }: { id: string }) {
                   <ShoppingCart className="h-5 w-5 mr-2" />
                   Adicionar ao Carrinho
                 </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-zinc-600 text-white hover:bg-zinc-700 bg-transparent"
-                >
+                <Button size="lg" variant="outline" className="">
                   <Heart className="h-5 w-5 mr-2" />
                   Favoritar
                 </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-zinc-600 text-white hover:bg-zinc-700 bg-transparent"
-                >
+                <Button size="lg" variant="outline" className="">
                   <Share2 className="h-5 w-5" />
                 </Button>
               </div>
             </div>
 
             {/* Features */}
-            <Card className="bg-zinc-800 border-zinc-700">
+            <Card className="bg-secondary">
               <CardContent className="p-6">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="flex items-center space-x-3">
                     <Truck className="h-6 w-6 text-amber-400" />
                     <div>
-                      <p className="text-white font-medium">Frete Grátis</p>
-                      <p className="text-zinc-400 text-sm">Acima de R$ 199</p>
+                      <p className="font-medium">Frete Grátis</p>
+                      <p className="text-sm">Acima de R$ 199</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
                     <Shield className="h-6 w-6 text-amber-400" />
                     <div>
-                      <p className="text-white font-medium">Garantia</p>
-                      <p className="text-zinc-400 text-sm">90 dias</p>
+                      <p className="font-medium">Garantia</p>
+                      <p className="text-sm">90 dias</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
                     <RotateCcw className="h-6 w-6 text-amber-400" />
                     <div>
-                      <p className="text-white font-medium">Troca Fácil</p>
-                      <p className="text-zinc-400 text-sm">30 dias</p>
+                      <p className="font-medium">Troca Fácil</p>
+                      <p className="text-sm">30 dias</p>
                     </div>
                   </div>
                 </div>
@@ -322,38 +300,34 @@ export default function DetailsPage({ id }: { id: string }) {
 
         {/* Product Details Tabs */}
         <Tabs defaultValue="description" className="mb-16">
-          <TabsList className="bg-zinc-800 border-zinc-700">
+          <TabsList className="bg-secondary">
             <TabsTrigger
               value="description"
-              className="data-[state=active]:bg-amber-600 text-white"
+              className="data-[state=active]:bg-amber-600"
             >
               Descrição
             </TabsTrigger>
             <TabsTrigger
               value="specifications"
-              className="data-[state=active]:bg-amber-600 text-white"
+              className="data-[state=active]:bg-amber-600"
             >
               Especificações
             </TabsTrigger>
             <TabsTrigger
               value="reviews"
-              className="data-[state=active]:bg-amber-600 text-white"
+              className="data-[state=active]:bg-amber-600"
             >
               Avaliações
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="description" className="mt-6">
-            <Card className="bg-zinc-800 border-zinc-700">
+            <Card className="bg-secondary">
               <CardContent className="p-6">
-                <h3 className="text-white font-semibold mb-4">
-                  Sobre o Produto
-                </h3>
-                <p className="text-zinc-300 mb-4">{product.description}</p>
-                <h4 className="text-white font-medium mb-2">
-                  Características:
-                </h4>
-                <ul className="text-zinc-300 space-y-1">
+                <h3 className="font-semibold mb-4">Sobre o Produto</h3>
+                <p className="mb-4">{product.description}</p>
+                <h4 className="font-medium mb-2">Características:</h4>
+                <ul className="space-y-1">
                   {/* {product.features.map((feature, index) => (
                     <li key={index} className="flex items-center space-x-2">
                       <span className="w-2 h-2 bg-amber-600 rounded-full"></span>
@@ -366,11 +340,9 @@ export default function DetailsPage({ id }: { id: string }) {
           </TabsContent>
 
           <TabsContent value="specifications" className="mt-6">
-            <Card className="bg-zinc-800 border-zinc-700">
+            <Card className="bg-secondary">
               <CardContent className="p-6">
-                <h3 className="text-white font-semibold mb-4">
-                  Especificações Técnicas
-                </h3>
+                <h3 className="font-semibold mb-4">Especificações Técnicas</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* {Object.entries(product.specifications).map(
                     ([key, value]) => (
@@ -389,13 +361,11 @@ export default function DetailsPage({ id }: { id: string }) {
           </TabsContent>
 
           <TabsContent value="reviews" className="mt-6">
-            <Card className="bg-zinc-800 border-zinc-700">
+            <Card className="bg-secondary">
               <CardContent className="p-6">
-                <h3 className="text-white font-semibold mb-4">
-                  Avaliações dos Clientes
-                </h3>
+                <h3 className="font-semibold mb-4">Avaliações dos Clientes</h3>
                 <div className="text-center py-8">
-                  <p className="text-zinc-400">Avaliações em breve...</p>
+                  <p className="">Avaliações em breve...</p>
                 </div>
               </CardContent>
             </Card>
@@ -404,14 +374,12 @@ export default function DetailsPage({ id }: { id: string }) {
 
         {/* Related Products */}
         <div>
-          <h2 className="text-2xl font-bold text-white mb-8">
-            Produtos Relacionados
-          </h2>
+          <h2 className="text-2xl font-bold mb-8">Produtos Relacionados</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {relatedProducts.map((relatedProduct) => (
               <Card
                 key={relatedProduct.id}
-                className="bg-zinc-800 border-zinc-700 hover:border-amber-600 transition-colors"
+                className="bg-secondary hover:border-amber-600 transition-colors"
               >
                 <CardContent className="p-4">
                   <Image
@@ -421,18 +389,14 @@ export default function DetailsPage({ id }: { id: string }) {
                     height={200}
                     className="w-full h-48 object-cover rounded-lg mb-4"
                   />
-                  <h3 className="text-white font-semibold mb-2">
-                    {relatedProduct.name}
-                  </h3>
+                  <h3 className="font-semibold mb-2">{relatedProduct.name}</h3>
                   <div className="flex items-center justify-between">
-                    <span className="text-white font-bold">
+                    <span className="font-bold">
                       R$ {relatedProduct.price.toFixed(2)}
                     </span>
                     <div className="flex items-center space-x-1">
                       <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                      <span className="text-zinc-400 text-sm">
-                        {relatedProduct.rating}
-                      </span>
+                      <span className="text-sm">{relatedProduct.rating}</span>
                     </div>
                   </div>
                 </CardContent>
