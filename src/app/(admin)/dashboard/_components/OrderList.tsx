@@ -19,8 +19,15 @@ import {
 } from "@/src/components/ui/table";
 import { TabsContent } from "@/src/components/ui/tabs";
 import useOrder from "@/src/hooks/useOrder";
-import { Edit, Eye } from "lucide-react";
 import React, { useEffect, useState } from "react";
+
+const paymentLabels = {
+  PENDING: "Aguardando pagamento",
+  SUCCEEDED: "Pago",
+  FAILED: "Pagamento falhou",
+  CANCELED: "Pagamento cancelado",
+  PROCESSING: "Processando pagamento"
+};
 
 export default function OrderList() {
   const { order, fetchById, loading, error, updateOrderId } = useOrder();
@@ -64,60 +71,42 @@ export default function OrderList() {
 
   return (
     <TabsContent value="orders">
-      <Card className="bg-zinc-800 border-zinc-700">
+      <Card className="bg-secondary">
         <CardHeader>
-          <CardTitle className="text-white">Gerenciar Pedidos</CardTitle>
+          <CardTitle className="">Gerenciar Pedidos</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
-              <TableRow className="border-zinc-700">
-                <TableHead className="text-zinc-300">Pedido</TableHead>
-                <TableHead className="text-zinc-300">Cliente</TableHead>
-                <TableHead className="text-zinc-300">Data</TableHead>
-                <TableHead className="text-zinc-300">Items</TableHead>
-                <TableHead className="text-zinc-300">Total</TableHead>
-                <TableHead className="text-zinc-300">Status</TableHead>
-                <TableHead className="text-zinc-300">Ações</TableHead>
+              <TableRow className="">
+                <TableHead className="">Pedido</TableHead>
+                <TableHead className="">Cliente</TableHead>
+                <TableHead className="">Data</TableHead>
+                <TableHead className="">Items</TableHead>
+                <TableHead className="">Total</TableHead>
+                <TableHead className="">Status</TableHead>
+                <TableHead className="">Ações</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {orderFilter.map((order) => (
-                <TableRow key={order.id} className="border-zinc-700">
-                  <TableCell className="text-white font-medium">
-                    {order.id}
-                  </TableCell>
-                  <TableCell className="text-zinc-300">
-                    {order.customer}
-                  </TableCell>
-                  <TableCell className="text-zinc-300">{order.date}</TableCell>
-                  <TableCell className="text-zinc-300">{order.items}</TableCell>
-                  <TableCell className="text-white font-medium">
+                <TableRow key={order.id} className="">
+                  <TableCell className="font-medium">{order.id}</TableCell>
+                  <TableCell className="">{order.name}</TableCell>
+                  <TableCell className="">{order.date}</TableCell>
+                  <TableCell className="">{order.items?.length ?? 0}</TableCell>
+                  <TableCell className="font-medium">
                     R$ {order.total.toFixed(2)}
                   </TableCell>
-                  {/* <TableCell>
-                    <Badge className={getStatusColor(order.status)}>
-                      {order.status}
+                  <TableCell>
+                    <Badge className="">
+                      {
+                        paymentLabels[
+                          order.paymentStatus as keyof typeof paymentLabels
+                        ]
+                      }
                     </Badge>
                   </TableCell>
-                  <TableCell>
-                    <div className="flex space-x-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="border-zinc-600 text-white hover:bg-zinc-700 bg-transparent"
-                      >
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="border-zinc-600 text-white hover:bg-zinc-700 bg-transparent"
-                      >
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>

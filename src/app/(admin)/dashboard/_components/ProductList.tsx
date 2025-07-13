@@ -38,24 +38,25 @@ import useProduct from "@/src/hooks/useProduct";
 import { Edit, Eye, Plus, Trash2 } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formData, formSchema } from "@/src/backend/model/formSchema";
 
 export default function ProductList() {
-  const { createProduct, products } = useProduct();
+  const { createProduct, products, deleteProduct, loading } = useProduct();
   const [error, setError] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors, isSubmitting }
   } = useForm<formData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      category: "Shapes",
+      category: undefined,
       price: 0,
       stock: 0,
       description: "",
@@ -76,10 +77,10 @@ export default function ProductList() {
 
   return (
     <TabsContent value="products">
-      <Card className="bg-zinc-800 border-zinc-700">
+      <Card className="bg-secondary">
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle className="text-white">Gerenciar Produtos</CardTitle>
+            <CardTitle className="">Gerenciar Produtos</CardTitle>
             <Dialog>
               <DialogTrigger asChild>
                 <Button className="bg-amber-600 hover:bg-amber-700">
@@ -87,7 +88,7 @@ export default function ProductList() {
                   Adicionar Produto
                 </Button>
               </DialogTrigger>
-              <DialogContent className="bg-zinc-800 border-zinc-700 text-white max-w-2xl">
+              <DialogContent className="bg-secondary max-w-2xl">
                 <DialogHeader>
                   <DialogTitle>Adicionar Novo Produto</DialogTitle>
                 </DialogHeader>
@@ -101,27 +102,40 @@ export default function ProductList() {
                       <Input
                         id="name"
                         {...register("name")}
-                        className="bg-zinc-700 border-zinc-600"
+                        className=" border-zinc-600"
                       />
                       {errors.name && (
                         <p className="text-red-500">{errors.name.message}</p>
                       )}
                     </div>
                     <div>
-                      <Label htmlFor="category">Categoria</Label>
-                      <Select {...register("category")}>
-                        <SelectTrigger className="bg-zinc-700 border-zinc-600">
-                          <SelectValue placeholder="Selecione uma categoria" />
-                        </SelectTrigger>
-                        <SelectContent className="bg-zinc-700 border-zinc-600">
-                          <SelectItem value="Shapes">Shapes</SelectItem>
-                          <SelectItem value="Rolamentos">Rolamentos</SelectItem>
-                          <SelectItem value="Roupas">Roupas</SelectItem>
-                          <SelectItem value="Acessorios">Acessórios</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <Label>Categoria</Label>
+                      <Controller
+                        name="category"
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                          >
+                            <SelectTrigger className="border-zinc-600">
+                              <SelectValue placeholder="Selecione uma categoria" />
+                            </SelectTrigger>
+                            <SelectContent className="border-zinc-600">
+                              <SelectItem value="Shapes">Shapes</SelectItem>
+                              <SelectItem value="Rolamentos">
+                                Rolamentos
+                              </SelectItem>
+                              <SelectItem value="Roupas">Roupas</SelectItem>
+                              <SelectItem value="Acessorios">
+                                Acessórios
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
                       {errors.category && (
-                        <p className="text-red-500">
+                        <p className="text-red-500 text-sm">
                           {errors.category.message}
                         </p>
                       )}
@@ -131,7 +145,7 @@ export default function ProductList() {
                       <Input
                         id="price"
                         {...register("price", { valueAsNumber: true })}
-                        className="bg-zinc-700 border-zinc-600"
+                        className=" border-zinc-600"
                       />
                       {errors.price && (
                         <p className="text-red-500">{errors.price.message}</p>
@@ -142,7 +156,7 @@ export default function ProductList() {
                       <Input
                         id="stock"
                         {...register("stock", { valueAsNumber: true })}
-                        className="bg-zinc-700 border-zinc-600"
+                        className=" border-zinc-600"
                       />
                       {errors.stock && (
                         <p className="text-red-500">{errors.stock.message}</p>
@@ -155,7 +169,7 @@ export default function ProductList() {
                       <Textarea
                         id="description"
                         {...register("description")}
-                        className="bg-zinc-700 border-zinc-600 h-32"
+                        className=" border-zinc-600 h-32"
                       />
                       {errors.description && (
                         <p className="text-red-500">
@@ -168,7 +182,7 @@ export default function ProductList() {
                       <Input
                         id="imageUrl"
                         {...register("imageUrl")}
-                        className="bg-zinc-700 border-zinc-600"
+                        className=" border-zinc-600"
                       />
                       {errors.imageUrl && (
                         <p className="text-red-500">
@@ -185,7 +199,7 @@ export default function ProductList() {
                         {isSubmitting ? "Enviando..." : "Criar Produto"}
                       </Button>
                       <DialogClose asChild>
-                        <Button variant="outline" className="text-black">
+                        <Button variant="outline" className="">
                           Cancel
                         </Button>
                       </DialogClose>
@@ -199,17 +213,17 @@ export default function ProductList() {
         <CardContent>
           <Table>
             <TableHeader>
-              <TableRow className="border-zinc-700">
-                <TableHead className="text-zinc-300">Produto</TableHead>
-                <TableHead className="text-zinc-300">Preço</TableHead>
-                <TableHead className="text-zinc-300">Estoque</TableHead>
-                <TableHead className="text-zinc-300">Categoria</TableHead>
-                <TableHead className="text-zinc-300">Ações</TableHead>
+              <TableRow className="">
+                <TableHead className="">Produto</TableHead>
+                <TableHead className="">Preço</TableHead>
+                <TableHead className="">Estoque</TableHead>
+                <TableHead className="">Categoria</TableHead>
+                <TableHead className="">Ações</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {products.map((product) => (
-                <TableRow key={product.id} className="border-zinc-700">
+                <TableRow key={product.id} className="">
                   <TableCell>
                     <div className="flex items-center space-x-3">
                       <Image
@@ -220,26 +234,20 @@ export default function ProductList() {
                         className="rounded-lg"
                         unoptimized
                       />
-                      <span className="text-white font-medium">
-                        {product.name}
-                      </span>
+                      <span className=" font-medium">{product.name}</span>
                     </div>
                   </TableCell>
-                  <TableCell className="text-white font-medium">
+                  <TableCell className=" font-medium">
                     R$ {product.price.toFixed(2)}
                   </TableCell>
-                  <TableCell className="text-zinc-300">
-                    {product.stock}
-                  </TableCell>
-                  <TableCell className="text-zinc-300">
-                    {product.category}
-                  </TableCell>
+                  <TableCell className="">{product.stock}</TableCell>
+                  <TableCell className="">{product.category}</TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
                       <Button
                         size="sm"
                         variant="outline"
-                        className="border-zinc-600 text-white hover:bg-zinc-700 bg-transparent"
+                        className="border-zinc-600 hover:bg-zinc-700 bg-transparent"
                       >
                         <Edit className="h-4 w-4" />
                       </Button>
@@ -247,6 +255,7 @@ export default function ProductList() {
                         size="sm"
                         variant="outline"
                         className="border-red-600 text-red-400 hover:bg-red-600 hover:text-white bg-transparent"
+                        onClick={() => deleteProduct(product.id as string)}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>

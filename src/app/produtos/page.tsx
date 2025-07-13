@@ -24,76 +24,16 @@ import {
   X
 } from "lucide-react";
 import useProduct from "@/src/hooks/useProduct";
-import Navbar from "@/src/components/Navbar";
 import { useCartStore } from "../store/cartStore";
 import { toast } from "sonner";
 
-const products = [
-  {
-    id: 1,
-    name: "Shape Street Pro",
-    price: 189.9,
-    originalPrice: 229.9,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Shapes",
-    rating: 4.8,
-    isNew: true,
-    inStock: true
-  },
-  {
-    id: 2,
-    name: "Rolamento ABEC 7",
-    price: 45.9,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Rolamentos",
-    rating: 4.9,
-    inStock: true
-  },
-  {
-    id: 3,
-    name: "Camiseta Woodtown",
-    price: 79.9,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Roupas",
-    rating: 4.7,
-    inStock: true
-  },
-  {
-    id: 4,
-    name: "Tênis Skate Classic",
-    price: 299.9,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Calçados",
-    rating: 4.6,
-    inStock: false
-  },
-  {
-    id: 5,
-    name: "Shape Cruiser Wood",
-    price: 159.9,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Shapes",
-    rating: 4.5,
-    inStock: true
-  },
-  {
-    id: 6,
-    name: "Boné Woodtown",
-    price: 49.9,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Acessórios",
-    rating: 4.3,
-    inStock: true
-  }
-];
-
 const categories = [
   "Todos",
-  "SHAPES",
-  "ROLAMENTOS",
-  "ROUPAS",
-  "CALCADOS",
-  "ACESSORIOS"
+  "Shapes",
+  "Rolamentos",
+  "Roupas",
+  "Calçados",
+  "Acessorios"
 ];
 const priceRanges = [
   { label: "Até R$ 50", min: 0, max: 50 },

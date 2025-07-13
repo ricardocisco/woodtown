@@ -4,7 +4,8 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger
-} from "@/components/ui/collapsible";
+} from "@/src/components/ui/collapsible";
+import { Skeleton } from "@/src/components/ui/skeleton";
 import { Order } from "@/src/backend/model/schemaModel";
 import { Button } from "@/src/components/ui/button";
 import { Label } from "@/src/components/ui/label";
@@ -39,7 +40,36 @@ export default function OrderList({ userId }: { userId: string }) {
     }
   }, [userId]);
 
-  if (loading) return <p>Carregando pedidos...</p>;
+  if (loading) {
+    return (
+      <div className="space-y-4">
+        {[...Array(3)].map((_, i) => (
+          <div key={i} className="bg-secondary p-4 border rounded-xl space-y-4">
+            <div className="flex items-center justify-between">
+              <Skeleton className="h-4 w-1/3" />
+              <Skeleton className="h-4 w-1/4" />
+            </div>
+
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-1/2" />
+              <Skeleton className="h-4 w-1/3" />
+              <Skeleton className="h-6 w-18" />
+            </div>
+
+            <div className="mt-4 space-y-3">
+              <Skeleton className="h-4 w-40" />
+              {[...Array(2)].map((_, j) => (
+                <div key={j} className="flex items-center gap-4">
+                  <Skeleton className="h-12 w-12 rounded-md" />
+                  <Skeleton className="h-4 w-1/2" />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
   if (error) return <p>{error}</p>;
 
   console.log("Pedidos do usuario: ", userOrders);

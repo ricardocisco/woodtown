@@ -21,22 +21,22 @@ import UserList from "./UserList";
 export default function TabItens() {
   return (
     <Tabs defaultValue="products" className="space-y-6">
-      <TabsList className="bg-zinc-800 border-zinc-700">
+      <TabsList className="bg-secondary">
         <TabsTrigger
           value="products"
-          className="data-[state=active]:bg-amber-600 text-white"
+          className="data-[state=active]:bg-amber-600"
         >
           Produtos
         </TabsTrigger>
         <TabsTrigger
           value="orders"
-          className="data-[state=active]:bg-amber-600 text-white"
+          className="data-[state=active]:bg-amber-600"
         >
           Pedidos
         </TabsTrigger>
         <TabsTrigger
           value="customers"
-          className="data-[state=active]:bg-amber-600 text-white"
+          className="data-[state=active]:bg-amber-600"
         >
           Clientes
         </TabsTrigger>

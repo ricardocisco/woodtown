@@ -69,7 +69,6 @@ export default async function Navbar() {
           </nav>
 
           <div className="flex items-center space-x-4">
-            <ModeToggle />
             <Sheet>
               <SheetTrigger>
                 <div className="flex relative">
@@ -115,6 +114,7 @@ export default async function Navbar() {
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>Configurações</DropdownMenuItem>
+                    <ModeToggle />
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <form action={logout}>

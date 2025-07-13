@@ -36,6 +36,7 @@ import { Product } from "@/src/backend/model/schemaModel";
 import useProduct from "@/src/hooks/useProduct";
 import { useCartStore } from "../../store/cartStore";
 import { toast } from "sonner";
+import { Skeleton } from "@/src/components/ui/skeleton";
 
 const relatedProducts = [
   {
@@ -65,7 +66,7 @@ export default function DetailsPage({ id }: { id: string }) {
   const { addToCart } = useCartStore();
   const { fetchProductById, loading, error } = useProduct();
   const [product, setProduct] = useState<Product>();
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(0);
 
   useEffect(() => {
     const getProduct = async () => {
@@ -77,7 +78,21 @@ export default function DetailsPage({ id }: { id: string }) {
   }, [id]);
 
   if (!product) {
-    return <div>Nenhum produto encotrado</div>;
+    return (
+      <div className="container mx-auto px-4 py-8 space-y-4">
+        <Skeleton className="h-8 w-1/2" />
+        <div className="flex gap-8">
+          <Skeleton className="h-64 w-1/2 rounded-lg" />
+          <Skeleton className="h-64 w-1/2 rounded-lg" />
+        </div>
+        <div className="flex gap-4">
+          <Skeleton className="h-6 w-24" />
+          <Skeleton className="h-6 w-20" />
+        </div>
+        <Skeleton className="h-24 w-full" />
+        <Skeleton className="h-10 w-32 rounded-md" />
+      </div>
+    );
   }
 
   const handleQuantityChange = (change: number) => {
