@@ -1,7 +1,11 @@
+import { Mail, Smartphone } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import Mapa from "./Map";
 
 export default function Footer() {
+  const ano = new Date().getFullYear();
+
   return (
     <footer className="border-t border-zinc-700 py-12">
       <div className="container mx-auto px-4">
@@ -17,44 +21,6 @@ export default function Footer() {
               Sua loja especializada em produtos de skate. Qualidade e paixão em
               cada produto.
             </p>
-          </div>
-
-          <div>
-            <h4 className=" font-semibold mb-4">Produtos</h4>
-            <ul className="space-y-2 text-zinc-400">
-              <li>
-                <Link
-                  href="/produtos?categoria=shapes"
-                  className="hover:text-amber-400"
-                >
-                  Shapes
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/produtos?categoria=rolamentos"
-                  className="hover:text-amber-400"
-                >
-                  Rolamentos
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/produtos?categoria=roupas"
-                  className="hover:text-amber-400"
-                >
-                  Roupas
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/produtos?categoria=acessorios"
-                  className="hover:text-amber-400"
-                >
-                  Acessórios
-                </Link>
-              </li>
-            </ul>
           </div>
 
           <div>
@@ -86,15 +52,27 @@ export default function Footer() {
           <div>
             <h4 className=" font-semibold mb-4">Contato</h4>
             <div className="space-y-2 text-zinc-400">
-              <p>📧 jou@woodtown.es</p>
-              <p>📱 986 125 535</p>
+              <p className="flex items-center gap-2">
+                <span>
+                  <Mail />
+                </span>
+                jou@woodtown.es
+              </p>
+              <p className="flex items-center gap-2">
+                <span>
+                  <Smartphone />
+                </span>{" "}
+                986 125 535
+              </p>
               <p>Avda. Camelias, 20 36211 Vigo (Pontevedra)</p>
             </div>
           </div>
+
+          <Mapa />
         </div>
 
         <div className="border-t border-zinc-700 mt-8 pt-8 text-center text-zinc-400">
-          <p>&copy; 2024 Woodtown. Todos os direitos reservados.</p>
+          <p>&copy; {ano} Woodtown. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>

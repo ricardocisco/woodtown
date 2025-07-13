@@ -114,7 +114,7 @@ export default function Home() {
                 <Card className="bg-zinc-700 border-zinc-600 hover:bg-zinc-600 transition-colors cursor-pointer">
                   <CardContent className="p-6 text-center">
                     <Image
-                      src={category.image || "/placeholder.svg"}
+                      src={category.image}
                       alt={category.name}
                       width={100}
                       height={100}
