@@ -44,7 +44,7 @@ export default function Mapa() {
       center={position}
       zoom={17}
       scrollWheelZoom={false}
-      className="w-full h-[300px] rounded-lg border"
+      className="w-full h-[350px] rounded-lg border"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'

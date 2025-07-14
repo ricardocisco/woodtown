@@ -31,8 +31,6 @@ export default async function Navbar() {
   const user = session?.user;
   const userId = user?.id ?? "";
 
-  console.log("usuario logado", user);
-
   return (
     <header className="border-b font-sans">
       <div className="container mx-auto px-4 py-4">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/src/components/ui/button";
@@ -26,14 +26,15 @@ import {
 import useProduct from "@/src/hooks/useProduct";
 import { useCartStore } from "../store/cartStore";
 import { toast } from "sonner";
+import { useSearchParams } from "next/navigation";
 
 const categories = [
   "Todos",
   "Shapes",
   "Rolamentos",
   "Roupas",
-  "Calçados",
-  "Acessorios"
+  "Rodas",
+  "Acessórios"
 ];
 const priceRanges = [
   { label: "Até R$ 50", min: 0, max: 50 },
@@ -46,11 +47,25 @@ export default function ProductsPage() {
   const { products, loading } = useProduct();
   const { addCart } = useCartStore();
 
+  const searchParams = useSearchParams();
+  const categoriaQuery = searchParams.get("categoria");
+
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("Todos");
+  const [selectedCategory, setSelectedCategory] = useState(
+    () => categoriaQuery ?? "Todos"
+  );
   const [selectedPriceRanges, setSelectedPriceRanges] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState("name");
   const [showOnlyInStock, setShowOnlyInStock] = useState(false);
+
+  useEffect(() => {
+    if (categoriaQuery) {
+      const capitalized =
+        categoriaQuery.charAt(0).toUpperCase() +
+        categoriaQuery.slice(1).toLowerCase();
+      setSelectedCategory(capitalized);
+    }
+  }, [categoriaQuery]);
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name

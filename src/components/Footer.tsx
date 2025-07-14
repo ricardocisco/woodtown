@@ -1,7 +1,14 @@
+"use client";
+
 import { Mail, Smartphone } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import Mapa from "./Map";
+import dynamic from "next/dynamic";
+
+const DynamicMap = dynamic(() => import("@/src/components/Map"), {
+  ssr: false
+});
 
 export default function Footer() {
   const ano = new Date().getFullYear();
@@ -68,7 +75,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <Mapa />
+          <DynamicMap />
         </div>
 
         <div className="border-t border-zinc-700 mt-8 pt-8 text-center text-zinc-400">
