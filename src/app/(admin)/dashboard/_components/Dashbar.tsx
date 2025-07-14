@@ -15,21 +15,16 @@ export default function Dashbar({ user }: User) {
             </div>
             <div>
               <span className="text-2xl font-bold">Woodtown</span>
-              <span className="text-amber-400 ml-2 text-sm">Admin</span>
             </div>
           </div>
 
           <div className="flex items-center space-x-4">
-            <h1 className="">Olá, {user.name}</h1>
             <Button
               asChild
               variant="outline"
               className="border-amber-600 text-amber-400 hover:bg-amber-600 hover:text-white bg-transparent"
             >
               <Link href={"/"}>Ver Loja </Link>
-            </Button>
-            <Button variant="outline" className="">
-              Sair
             </Button>
             <ModeToggle />
           </div>
