@@ -5,7 +5,7 @@ import UserList from "./usersList";
 
 export default function Page() {
   return (
-    <Pagina>
+    <Pagina className="bg-secondary">
       <Label>Usuarios</Label>
       <UserList />
     </Pagina>

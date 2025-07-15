@@ -1,7 +1,7 @@
 import React from "react";
 import Pagina from "../Pagina";
 import { Label } from "@/src/components/ui/label";
-import ProductForm from "./cadastroForm";
+import ProductForm from "./cadastro";
 
 export default function Page() {
   return (

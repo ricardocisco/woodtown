@@ -1,33 +1,11 @@
 "use client";
 
 import { OrderItem } from "@/src/backend/model/schemaModel";
-import { Badge } from "@/src/components/ui/badge";
-import { Button } from "@/src/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle
-} from "@/src/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from "@/src/components/ui/table";
-import { TabsContent } from "@/src/components/ui/tabs";
 import useOrder from "@/src/hooks/useOrder";
 import React, { useEffect, useState } from "react";
-
-const paymentLabels = {
-  PENDING: "Aguardando pagamento",
-  SUCCEEDED: "Pago",
-  FAILED: "Pagamento falhou",
-  CANCELED: "Pagamento cancelado",
-  PROCESSING: "Processando pagamento"
-};
+import { columns as generateColumns } from "./columns";
+import { Skeleton } from "@/src/components/ui/skeleton";
+import { DataTable } from "./data-table";
 
 export default function OrderList() {
   const { order, fetchById, loading, error, updateOrderId } = useOrder();
@@ -69,50 +47,27 @@ export default function OrderList() {
       : null
   }));
 
+  const columns = generateColumns();
+
   return (
-    <div className="mt-5">
-      <Card className="bg-secondary">
-        <CardHeader>
-          <CardTitle className="">Gerenciar Pedidos</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow className="">
-                <TableHead className="">Pedido</TableHead>
-                <TableHead className="">Cliente</TableHead>
-                <TableHead className="">Data</TableHead>
-                <TableHead className="">Items</TableHead>
-                <TableHead className="">Total</TableHead>
-                <TableHead className="">Status</TableHead>
-                <TableHead className="">Ações</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {orderFilter.map((order) => (
-                <TableRow key={order.id} className="">
-                  <TableCell className="font-medium">{order.id}</TableCell>
-                  <TableCell className="">{order.name}</TableCell>
-                  <TableCell className="">{order.date}</TableCell>
-                  <TableCell className="">{order.items?.length ?? 0}</TableCell>
-                  <TableCell className="font-medium">
-                    R$ {order.total.toFixed(2)}
-                  </TableCell>
-                  <TableCell>
-                    <Badge className="">
-                      {
-                        paymentLabels[
-                          order.paymentStatus as keyof typeof paymentLabels
-                        ]
-                      }
-                    </Badge>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+    <div className="flex flex-col gap-4">
+      {loading ? (
+        Array.from({ length: 10 }).map((_, index) => (
+          <div key={index} className="flex items-center space-x-4 w-full">
+            <Skeleton className="h-12 w-12 rounded-full" />
+            <div className="space-y-2">
+              <Skeleton className="h-6 w-[250px]" />
+              <Skeleton className="h-6 w-[200px]" />
+            </div>
+          </div>
+        ))
+      ) : error ? (
+        <div className="flex justify-center items-center h-64 text-red-600">
+          Erro ao carregar os pedidos
+        </div>
+      ) : (
+        <DataTable columns={columns} data={orderFilter} />
+      )}
     </div>
   );
 }

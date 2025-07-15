@@ -18,4 +18,13 @@ export const formSchema = z.object({
     .min(5, { message: "a url da imagem precisa ter pelo menos 5 letras" })
 });
 
+export const userSchema = z.object({
+  name: z
+    .string()
+    .min(5, { message: "o nome precisa ter pelo menos 5 letras" }),
+  email: z.string().email({ message: "o email precisa ser valido" }),
+  role: z.enum(["ADMIN", "USER"])
+});
+
 export type formData = z.infer<typeof formSchema>;
+export type userFormData = z.infer<typeof userSchema>;
