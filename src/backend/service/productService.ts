@@ -28,11 +28,15 @@ export async function deleteProduct(id: string) {
 }
 
 export async function editProduct(id: string, data: Product) {
-  console.log("ID recebido:", id);
-  console.log("Dados recebido:", data);
-
   return await db.product.update({
     where: { id },
-    data: { ...data }
+    data: {
+      name: data.name,
+      price: data.price,
+      stock: data.stock,
+      description: data.description,
+      imageUrl: data.imageUrl,
+      category: data.category
+    }
   });
 }

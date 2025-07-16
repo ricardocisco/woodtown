@@ -121,7 +121,7 @@ export default function UserList() {
   const columns = generateColumns(handleEditUser);
 
   return (
-    <div className="flex flex-col gap-4 py-4 bg-secondary">
+    <div className="flex flex-col gap-4 py-4">
       {loading ? (
         Array.from({ length: 10 }).map((_, index) => (
           <div

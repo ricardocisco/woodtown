@@ -1,11 +1,23 @@
 import { Product } from "@/src/backend/model/schemaModel";
+import { deleteProduct } from "@/src/backend/service/productService";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "@/src/components/ui/alert-dialog";
 import { Button } from "@/src/components/ui/button";
 import { Checkbox } from "@/src/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
-import { Trash } from "lucide-react";
+import { EditIcon, Trash, TrashIcon } from "lucide-react";
 
 export const columns = (
-  deleteProduct: (id: string) => void
+  handleEditProduct: (data: Product) => void
 ): ColumnDef<Product>[] => [
   {
     id: "select",
@@ -60,31 +72,93 @@ export const columns = (
     header: "Quantidade"
   },
   {
-    id: "delete",
-    cell: ({ row }) => (
-      <Button
-        variant={"ghost"}
-        size={"sm"}
-        onClick={() => {
-          try {
-            deleteProduct(row.id);
-            // toast({
-            //   title: "Sucesso",
-            //   description: "Café deletado com sucesso",
-            //   variant: "default"
-            // });
-          } catch (error) {
-            console.error(error);
-            // toast({
-            //   title: "Erro",
-            //   description: "Erro ao deletar o cafe",
-            //   variant: "destructive"
-            // });
-          }
-        }}
-      >
-        <Trash className="text-red-600 h-4 w-4" />
-      </Button>
-    )
+    id: "edit",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const product = row.original;
+
+      return (
+        <div>
+          <Button
+            onClick={() => handleEditProduct(product)}
+            className="h-8 w-8 p-0"
+            variant="ghost"
+          >
+            <EditIcon className="h-4 w-4 text-blue-600" />
+          </Button>
+
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button className="h-8 w-8 p-0" variant="ghost">
+                <TrashIcon className="h-4 w-4 text-red-600" />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Deletar Usuário</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Tem certeza que deseja deletar esse usuário?
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                <AlertDialogAction>
+                  <Button
+                    variant={"destructive"}
+                    onClick={() => {
+                      try {
+                        deleteProduct(product.id);
+                        // toast.success(
+                        //   <div className="flex items-start gap-3">
+                        //     <CheckCircle className="h-5 w-5 text-green-500 mt-1" />
+
+                        //     <div className="flex-1">
+                        //       <p className="font-medium">Sucesso</p>
+                        //       <p className="text-sm mt-1">
+                        //         Usuario atualizado com sucesso.
+                        //       </p>
+                        //     </div>
+                        //   </div>,
+                        //   {
+                        //     action: {
+                        //       label: <X className="h-4 w-4" />,
+                        //       onClick: () => {}
+                        //     },
+                        //     position: "top-center"
+                        //   }
+                        // );
+                      } catch (error) {
+                        console.log(error);
+                        // toast.error(
+                        //   <div className="flex items-start gap-3">
+                        //     <X className="h-5 w-5 text-red-500 mt-1" />
+
+                        //     <div className="flex-1">
+                        //       <p className="font-medium">Erro</p>
+                        //       <p className="text-sm mt-1">
+                        //         Erro ao deletar o usuario.
+                        //       </p>
+                        //     </div>
+                        //   </div>,
+                        //   {
+                        //     action: {
+                        //       label: <X className="h-4 w-4" />,
+                        //       onClick: () => {}
+                        //     },
+                        //     position: "top-center"
+                        //   }
+                        // );
+                      }
+                    }}
+                  >
+                    Deletar
+                  </Button>
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
+      );
+    }
   }
 ];

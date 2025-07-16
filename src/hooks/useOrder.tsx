@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Order } from "../backend/model/schemaModel";
+import { Product } from "@prisma/client";
 
 interface ApiError {
   message: string;
@@ -134,7 +135,7 @@ export default function useOrder() {
     }
   };
 
-  const updateOrderId = async (id: string, status: string) => {
+  const updateProductId = async (id: string, data: Partial<Product>) => {
     setLoading(true);
     setError(null);
     try {
@@ -143,14 +144,14 @@ export default function useOrder() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ status })
+        body: JSON.stringify({ data })
       });
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Erro desconhecido");
       }
       const result = await response.json();
-      console.log(result);
+      console.log("dados recebidos", result);
     } catch (error) {
       const apiError = error as ApiError;
       setError(apiError.message);
@@ -172,6 +173,6 @@ export default function useOrder() {
     fetchById,
     orderDetail,
     deleteOrderId,
-    updateOrderId
+    updateProductId
   };
 }

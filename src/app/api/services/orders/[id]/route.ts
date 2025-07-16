@@ -1,8 +1,10 @@
+import { Product } from "@/src/backend/model/schemaModel";
 import {
   deleteOrder,
   getOrderItensById,
   updateStatusOrder
 } from "@/src/backend/service/orderService";
+import { editProduct } from "@/src/backend/service/productService";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -71,25 +73,13 @@ export async function PUT(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const id = (await params).id;
-  const { status } = await req.json();
+  const { id } = await params;
   try {
-    if (!id) {
-      return NextResponse.json({ error: "ID não informado" }, { status: 400 });
-    }
-    if (!status) {
-      return NextResponse.json(
-        { error: "Status não informado" },
-        { status: 400 }
-      );
-    }
-    const result = await updateStatusOrder(id, status);
-    return NextResponse.json(result);
+    const body = await req.json();
+    const data = body.data;
+    const update = await editProduct(id, data);
+    return NextResponse.json(update);
   } catch (error) {
     console.error(error);
-    return NextResponse.json(
-      { error: error, message: "Erro ao atualizar pedido" },
-      { status: 500 }
-    );
   }
 }

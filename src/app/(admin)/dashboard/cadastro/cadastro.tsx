@@ -6,6 +6,7 @@ import {
   DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger
@@ -17,11 +18,77 @@ import Form from "./form";
 import { columns as generateColumns } from "./columns";
 import { DataTable } from "./data-table";
 import { Skeleton } from "@/src/components/ui/skeleton";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import { formData, formSchema } from "@/src/backend/model/formSchema";
+import useOrder from "@/src/hooks/useOrder";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@/src/components/ui/form";
+import { Input } from "@/src/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/src/components/ui/select";
+import { Product } from "@/src/backend/model/schemaModel";
 
 export default function ProductForm() {
   const { products, deleteProduct, loading, error } = useProduct();
+  const { updateProductId } = useOrder();
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const columns = generateColumns(deleteProduct);
+  const form = useForm<formData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      category: undefined,
+      price: 0,
+      stock: 0,
+      description: "",
+      imageUrl: ""
+    }
+  });
+
+  const handleEditProduct = (product: Product) => {
+    setEditingProduct(product);
+    setIsDialogOpen(true);
+    form.reset({
+      name: product.name,
+      category: product.category as
+        | "Shapes"
+        | "Rolamentos"
+        | "Roupas"
+        | "Acessorios",
+      price: product.price,
+      stock: product.stock,
+      description: product.description,
+      imageUrl: product.imageUrl
+    });
+  };
+
+  const onSubmit: SubmitHandler<formData> = async (data: formData) => {
+    if (!editingProduct || !editingProduct.id) {
+      console.error("Produto em edição inválido.");
+      return;
+    }
+
+    try {
+      await updateProductId(editingProduct.id, data);
+      setIsDialogOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const columns = generateColumns(handleEditProduct);
 
   return (
     <div className="w-full py-2 gap-2">
@@ -58,7 +125,125 @@ export default function ProductForm() {
             Erro ao carregar os pedidos
           </div>
         ) : (
-          <DataTable columns={columns} data={products} />
+          <>
+            <DataTable columns={columns} data={products} />
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild></DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Editar Usuario</DialogTitle>
+                  <DialogDescription>
+                    Preencha os campos para editar o usuario
+                  </DialogDescription>
+                </DialogHeader>
+                <FormProvider {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <div className="grid gap-4 py-4">
+                      {error && <p className="text-red-500">{error}</p>}
+                      <FormField
+                        control={form.control}
+                        name="imageUrl"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Imagem</FormLabel>
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Nome</FormLabel>
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="price"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Preço</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                {...field}
+                                onChange={(e) => {
+                                  field.onChange(Number(e.target.value));
+                                }}
+                                placeholder="Ex: 12.50"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="stock"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Estoque</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                {...field}
+                                onChange={(e) => {
+                                  field.onChange(Number(e.target.value));
+                                }}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="category"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Role</FormLabel>
+                            <FormControl>
+                              <Select
+                                value={field.value}
+                                onValueChange={field.onChange}
+                              >
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select a role" />
+                                </SelectTrigger>
+                                <SelectContent className="border-zinc-600">
+                                  <SelectItem value="Shapes">Shapes</SelectItem>
+                                  <SelectItem value="Rolamentos">
+                                    Rolamentos
+                                  </SelectItem>
+                                  <SelectItem value="Roupas">Roupas</SelectItem>
+                                  <SelectItem value="Acessorios">
+                                    Acessórios
+                                  </SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <DialogFooter>
+                      <Button type="submit">Salvar</Button>
+                    </DialogFooter>
+                  </form>
+                </FormProvider>
+              </DialogContent>
+            </Dialog>
+          </>
         )}
       </div>
     </div>

@@ -8,7 +8,7 @@ import { Skeleton } from "@/src/components/ui/skeleton";
 import { DataTable } from "./data-table";
 
 export default function OrderList() {
-  const { order, fetchById, loading, error, updateOrderId } = useOrder();
+  const { order, fetchById, loading, error } = useOrder();
   const [orderDetails, setOrderDetails] = useState<{
     [key: string]: OrderItem[];
   }>({});
