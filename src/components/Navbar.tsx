@@ -25,6 +25,8 @@ import {
 } from "@/src/components/ui/dropdown-menu";
 import logout from "../app/(auth)/logout/logout";
 import { ModeToggle } from "./ui/toggle-theme";
+import Image from "next/image";
+import logo from "public/TIPO_TP.svg";
 
 export default async function Navbar() {
   const session = await auth();
@@ -33,13 +35,10 @@ export default async function Navbar() {
 
   return (
     <header className="border-b font-sans">
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto py-2">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-amber-600 rounded-lg flex items-center justify-center">
-              <span className=" font-bold text-xl">W</span>
-            </div>
-            <span className="text-2xl font-bold ">Woodtown</span>
+            <Image src={logo} width={100} height={100} alt="logo" />
           </Link>
 
           <nav className="hidden md:flex space-x-8">
