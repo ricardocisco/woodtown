@@ -10,29 +10,33 @@ import {
   SidebarMenuButton,
   SidebarMenuItem
 } from "@/src/components/ui/sidebar";
-import { Home, LogOut, Package, PlusCircle, Users } from "lucide-react";
+import { LogOut } from "lucide-react";
+import { HomeIcon } from "components/ui/home";
 import Link from "next/link";
+import { UserRoundPlusIcon } from "@/components/ui/user-round-plus";
+import { BoxesIcon } from "@/components/ui/boxes";
+import { PlusIcon } from "@/components/ui/plus";
 
 const items = [
   {
     title: "Home",
     url: "/dashboard",
-    icon: Home
+    icon: HomeIcon
   },
   {
     title: "Cadastro",
     url: "/dashboard/cadastro",
-    icon: PlusCircle
+    icon: PlusIcon
   },
   {
     title: "Pedidos",
     url: "/dashboard/pedidos",
-    icon: Package
+    icon: BoxesIcon
   },
   {
     title: "Usuarios",
     url: "/dashboard/usuarios",
-    icon: Users
+    icon: UserRoundPlusIcon
   }
 ];
 
@@ -48,7 +52,7 @@ export default function AppSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link href={item.url}>
-                      <item.icon />
+                      <item.icon className="" />
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
