@@ -7,6 +7,7 @@ import Image from "next/image";
 import { Badge } from "./ui/badge";
 import { ShoppingCart, Star } from "lucide-react";
 import { Button } from "./ui/button";
+import { CartIcon } from "@/components/ui/cart";
 
 export default function ProductsHome() {
   const { products, loading } = useProduct();
@@ -41,7 +42,7 @@ export default function ProductsHome() {
                   </span>
                 </div>
                 <Button size="sm" className="bg-amber-600 hover:bg-amber-700">
-                  <ShoppingCart className="h-4 w-4" />
+                  <CartIcon className="h-4 w-4" />
                 </Button>
               </div>
             </div>

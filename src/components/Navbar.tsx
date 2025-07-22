@@ -27,6 +27,7 @@ import logout from "../app/(auth)/logout/logout";
 import { ModeToggle } from "./ui/toggle-theme";
 import Image from "next/image";
 import logo from "public/TIPO_TP.svg";
+import { CartIcon } from "@/components/ui/cart";
 
 export default async function Navbar() {
   const session = await auth();
@@ -69,7 +70,7 @@ export default async function Navbar() {
             <Sheet>
               <SheetTrigger>
                 <div className="flex relative">
-                  <ShoppingCart className="w-6 h-6 text-amber-400" />
+                  <CartIcon className="w-6 h-6 text-amber-400" />
                   <Count />
                 </div>
               </SheetTrigger>

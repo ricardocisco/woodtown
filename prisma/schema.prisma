@@ -36,6 +36,9 @@ model User {
   password String
   role     Role    @default(USER)
   Order    Order[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Product {
@@ -46,8 +49,10 @@ model Product {
   description String?
   imageUrl    String
   category    String
-  createdAt   DateTime    @default(now())
   OrderItem   OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Order {
@@ -56,17 +61,21 @@ model Order {
   userId          String        @db.ObjectId
   items           OrderItem[]
   total           Float
-  createdAt       DateTime      @default(now())
   paymentStatus   PaymentStatus @default(PENDING)
   orderStatus     OrderStatus   @default(AWAITING)
   stripeSessionId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model OrderItem {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  product   Product  @relation(fields: [productId], references: [id])
-  productId String   @db.ObjectId
-  Order     Order    @relation(fields: [orderId], references: [id])
-  orderId   String   @db.ObjectId
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  product   Product @relation(fields: [productId], references: [id])
+  productId String  @db.ObjectId
+  Order     Order   @relation(fields: [orderId], references: [id])
+  orderId   String  @db.ObjectId
+
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

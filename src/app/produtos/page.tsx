@@ -27,6 +27,8 @@ import useProduct from "@/src/hooks/useProduct";
 import { useCartStore } from "../store/cartStore";
 import { toast } from "sonner";
 import { useSearchParams } from "next/navigation";
+import { XIcon } from "@/components/ui/x";
+import { CartIcon } from "@/components/ui/cart";
 
 const categories = [
   "Todos",
@@ -301,7 +303,7 @@ export default function ProductsPage() {
                                     margin: 2
                                   },
                                   action: {
-                                    label: <X className="h-4 w-4 " />,
+                                    label: <XIcon className="h-7 w-7 " />,
                                     onClick: () => {}
                                   },
                                   position: "top-center"
@@ -309,7 +311,7 @@ export default function ProductsPage() {
                               );
                           }}
                         >
-                          <ShoppingCart className="h-4 w-4" />
+                          <CartIcon className="h-4 w-4" />
                         </Button>
                       </div>
                     </div>
