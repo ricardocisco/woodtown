@@ -11,14 +11,6 @@ export default function PaymentButton() {
   const { createOrder } = useOrder();
   const { data: session, status } = useSession();
 
-  console.log(
-    "Items cart: ",
-    items.map((item) => item.id)
-  );
-
-  console.log("Sessão: ", session);
-  console.log("Status: ", status);
-
   const email = session?.user?.email;
 
   const handleCheckout = async () => {
