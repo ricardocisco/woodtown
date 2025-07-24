@@ -5,7 +5,8 @@ import {
   PasswordChangeEvent,
   PasswordResetEvent,
   PasswordResetRequestEvent,
-  PurchaseEvent
+  PurchaseEvent,
+  UserRegistrationEvent
 } from "@/src/lib/types/logging";
 
 interface LoggerConstructor {
@@ -43,6 +44,27 @@ class Logger {
     } catch {
       return timestamp.toString();
     }
+  }
+
+  async logUserRegistration(event: UserRegistrationEvent) {
+    if (!this.isLoggingEnabled) return;
+
+    const embed: DiscordEmbed = {
+      title: "Um usuário se registrou",
+      description: `Usuário com nome: ${event.userName} e email: ${event.userEmail} foi registrado.`,
+      footer: {
+        text: `Data: ${this.formatTimestamp(event.timestamp)}`
+      },
+      color: EmbedColors.SUCCESS
+    };
+
+    await fetch(`${this.passwordChangeWebhookUrl}?wait=true`, {
+      method: "POST",
+      body: JSON.stringify({ embeds: [embed] }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
   }
 
   async logPasswordChange(event: PasswordChangeEvent) {
@@ -113,7 +135,7 @@ class Logger {
 
     const embed: DiscordEmbed = {
       title: "um usuário realizou uma compra",
-      description: `Usuario com email ${event.customerEmail} realizou uma compra ${event.plan}\nGateway de Pagamento: ${event.paymentGateway}`,
+      description: `Usuario com email: ${event.customerEmail} realizou uma compra ${event.plan}\nGateway de Pagamento: ${event.paymentGateway}`,
       footer: {
         text: `Data: ${this.formatTimestamp(event.timestamp)}`
       },

@@ -13,6 +13,12 @@ export interface DiscordEmbed {
   color?: number;
 }
 
+export interface UserRegistrationEvent {
+  userName: string;
+  userEmail: string;
+  timestamp: string;
+}
+
 export interface PasswordChangeEvent {
   userEmail: string;
   timestamp: string;

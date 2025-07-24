@@ -2,6 +2,7 @@
 "use server";
 
 import db from "@/src/lib/db";
+import { logger } from "@/src/lib/logger";
 import { hashSync } from "bcrypt-ts";
 
 export default async function RegisterAction(
@@ -42,6 +43,12 @@ export default async function RegisterAction(
       email: email,
       password: hashSync(password)
     }
+  });
+
+  logger.logUserRegistration({
+    userName: name,
+    userEmail: email,
+    timestamp: new Date().toDateString()
   });
 
   return {
