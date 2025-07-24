@@ -16,8 +16,13 @@ export default function PaymentButton() {
     items.map((item) => item.id)
   );
 
+  console.log("Sessão: ", session);
+  console.log("Status: ", status);
+
+  const email = session?.user?.email;
+
   const handleCheckout = async () => {
-    if (status !== "authenticated" || !session?.user?.email) {
+    if (status !== "authenticated" || !email) {
       toast.error("Você precisa estar logado para prosseguir com a compra!", {
         position: "top-center"
       });
@@ -25,25 +30,14 @@ export default function PaymentButton() {
     }
 
     try {
-      // const orderRes = await fetch("/api/services/orders", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json"
-      //   },
-      //   body: JSON.stringify({
-      //     userId: session.user.id,
-      //     email: session.user.email,
-      //     total,
-      //     items
-      //   })
-      // });
       const orderRes = await createOrder({
         userId: session.user.id,
         items: items.map((item) => ({
           productId: item.id,
           quantity: item.quantity
         })),
-        total
+        total,
+        email: session.user.email
       });
 
       console.log(orderRes);
@@ -60,7 +54,7 @@ export default function PaymentButton() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ items, orderId: order.id })
+        body: JSON.stringify({ items, orderId: order.id, email })
       });
 
       const data = await response.json();

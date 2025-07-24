@@ -3,12 +3,14 @@ import db from "@/src/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { PaymentStatus, OrderStatus } from "@prisma/client";
+import { logger } from "@/src/lib/logger";
+import { custom } from "zod";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "");
 
 export async function POST(request: NextRequest) {
   try {
-    const { items, orderId, userId } = await request.json();
+    const { items, orderId, userId, email } = await request.json();
 
     const line_items = items.map((item: any) => ({
       price_data: {
@@ -30,6 +32,7 @@ export async function POST(request: NextRequest) {
         orderId,
         userId
       },
+      customer_email: email,
       success_url:
         "http://localhost:3000/payment-confirmed?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: "http://localhost:3000/payment-canceled?order_id=${orderId}"
@@ -42,6 +45,13 @@ export async function POST(request: NextRequest) {
       data: {
         stripeSessionId: session.id
       }
+    });
+
+    await logger.logCheckoutSessionCreation({
+      customerEmail: email,
+      plan: "Carrinho de Compras",
+      paymentGateway: "Stripe",
+      timestamp: new Date().toISOString()
     });
 
     return NextResponse.json({
@@ -74,6 +84,13 @@ export async function GET(req: NextRequest) {
       }
     });
   }
+
+  await logger.logPurchase({
+    customerEmail: session.customer_email,
+    plan: "Carrinho de Compras",
+    paymentGateway: "Stripe",
+    timestamp: new Date().toISOString()
+  });
 
   return NextResponse.json({
     status: session.payment_status,
