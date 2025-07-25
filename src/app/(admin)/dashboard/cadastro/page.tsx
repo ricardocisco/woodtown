@@ -6,7 +6,12 @@ import ProductForm from "./cadastro";
 export default function Page() {
   return (
     <Pagina>
-      <Label>Cadastrar um novo produto</Label>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-white mb-2">
+          Painel Administrativo
+        </h1>
+        <p className="text-zinc-400">Cadastrar um novo produto</p>
+      </div>
       <ProductForm />
     </Pagina>
   );

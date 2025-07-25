@@ -6,7 +6,12 @@ import UserList from "./usersList";
 export default function Page() {
   return (
     <Pagina>
-      <Label>Usuarios</Label>
+      <div className="mb-1">
+        <h1 className="text-3xl font-bold text-white mb-2">
+          Painel Administrativo
+        </h1>
+        <p className="text-zinc-400">Gerenciar Usuarios</p>
+      </div>
       <UserList />
     </Pagina>
   );
